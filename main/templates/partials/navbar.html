@@ -1,0 +1,39 @@
+{% load static %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img src="{% static 'img/logosmall.png' %}" class="inline-block img-responsive" alt="Cclub">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item {% if active == 'about' %} active {% endif %}">
+          <a class="nav-link" href="/about">Hakkında</a>
+        </li>
+        <li class="nav-item {% if active == 'announce' %} active {% endif %}">
+          <a class="nav-link" href="/announce">Duyurular</a>
+        </li>
+        <li class="nav-item {% if active == 'contact' %} active {% endif %}">
+          <a class="nav-link" href="/contact">İletişim</a>
+        </li>
+        <li class="nav-item {% if active == 'events' %} active {% endif %}">
+          <a class="nav-link" href="/events">Etkinliklerimiz</a>
+        </li>
+        <li class="nav-item {% if active == 'bilisimgunu' %} active {% endif %}">
+          <a class="nav-link" href="/bilisimgunu">Bilişim Günü</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/bergi">e-bergi</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/yarisma">21. Programlama Yarışması</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
