@@ -1,0 +1,259 @@
+body,html {
+    height: 100%;
+    margin: 0;
+    background: #222;
+}
+i{
+  right: 5px;
+  position: relative;
+  vertical-align: middle;
+}
+ul li{
+  font-size: 1.2em;
+}
+
+.img-responsive{
+  width: 60px;
+  height: auto;
+}
+
+
+@media only screen and (min-width: 1200px) {
+  .carousel-item{
+    width:100%;
+    height: 60vh;
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .carousel-item{
+    height: 80vh;
+  }
+  .w-100{
+    height: 100vh;
+    object-fit: cover;
+  }
+}
+
+.media{
+  margin: 10px;
+}
+
+.carousel-caption{
+  padding-bottom: 50px;
+}
+
+.leftimage {
+  width: 48%;
+  height: auto;
+}
+
+.carousel-inner .carousel-item img {
+    position:relative;
+    top:50%;
+    transform: translateY(-50%);
+    z-index: -1
+}
+.overlay {
+    background: linear-gradient(to bottom, rgba(255,255,255,0),#000);
+    bottom: 0;
+    left: 0;
+    opacity: .9;
+    position: absolute;
+    right:0;
+    top:0;
+    z-index: 1;
+}
+
+.rightimage {
+  width: 48%;
+  height: auto;
+}
+
+.bg {
+    /* The image used */
+    background-image: url("../img/bg1.jpg");
+    /* Full height */
+    height: 80%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.inpar {
+    margin-bottom: 20px;
+}
+#links li {
+  list-style-type: none;
+}
+.midText{
+    padding-top: 15%;
+    text-align: center;
+    flex:auto;
+}
+
+.footer {
+  color: #aaa;
+  height: auto;
+  padding-top: 5px;
+  text-align: center;
+  background: #343a40;
+  width: 100%!important;
+  bottom: 0;
+
+}
+
+.info{
+  margin-top: 10px;
+  background: #ccc;
+}
+
+
+.card{
+  margin-top: 5px;
+  background: rgba(178,178,178,0.8);
+  align-items: center;
+  text-align: center;
+  padding-bottom: 30px;
+}
+
+p.lead {
+    font-size: 1.2rem;
+}
+
+.mt-0 {
+  margin-bottom: 16px;
+}
+
+.mr-2{
+  display: inline-block;
+  float: left;
+  width: 25%;
+}
+@media only screen and (max-width: 600px) {
+  .mr-2{
+    width: 50%;
+  }
+}
+
+.mr-3{
+  display: inline-block;
+  float: left;
+  width: 50%;
+}
+@media only screen and (max-width: 600px) {
+  .mr-3{
+    width: 100%;
+    margin-bottom: 12px;
+  }
+}
+
+.galerimg{
+  width: 47%;
+  margin: 1%;
+}
+@media only screen and (max-width: 600px) {
+  .galerimg
+  {
+    width: 100%;
+    margin-top: 5px;
+  }
+}
+
+.card-img-top {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  margin-top: 20px;
+}
+
+.card-text {
+  font-size: 2em;
+}
+
+
+.Header {
+  color: #fff;
+  font-size: 3em;
+  text-shadow: 5px 5px 5px  rgba(0,0,0,0.6);
+}
+.subHeader{
+  font-size: 2em;
+  text-shadow: 4px 4px 4px rgba(0,0,0,0.4);
+  color: #fff;
+}
+@media only screen and (max-width: 600px) {
+  .Header {
+    color: #fff;
+    font-size: 2em;
+    text-shadow: 5px 5px 5px rgba(0,0,0,0.6);
+  }
+  .subHeader{
+    font-size: 1em;
+    text-shadow: 4px 4px 4px rgba(0,0,0,0.4);
+    color: #fff;
+  }
+}
+#errorBg{
+  /* The image used */
+  background-image: url("../img/error.png");
+  /* Full height */
+  height: 80%;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.youtube {
+    background-color: #000;
+    margin-bottom: 30px;
+    position: relative;
+    padding-top: 56.25%;
+    overflow: hidden;
+    cursor: pointer;
+}
+.youtube img {
+    width: 100%;
+    top: -16.84%;
+    left: 0;
+    opacity: 0.8;
+}
+.youtube .play-button {
+    width: 90px;
+    height: 60px;
+    background-color: #333;
+    box-shadow: 0 0 30px rgba( 0,0,0,0.3 );
+    z-index: 1;
+    opacity: 0.8;
+    border-radius: 10px;
+}
+.youtube .play-button:before {
+    content: "";
+    border-style: solid;
+    border-width: 15px 0 15px 26.0px;
+    border-color: transparent transparent transparent #fff;
+}
+.youtube img,
+.youtube .play-button {
+    cursor: pointer;
+}
+.youtube img,
+.youtube iframe,
+.youtube .play-button,
+.youtube .play-button:before {
+    position: absolute;
+}
+.youtube .play-button,
+.youtube .play-button:before {
+    top: 50%;
+    left: 50%;
+    transform: translate3d( -50%, -50%, 0 );
+}
+.youtube iframe {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
