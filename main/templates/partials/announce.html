@@ -1,35 +1,23 @@
 {% load static %}
+{% load md %}
 
-<div class="jumbotron info">
-  <p class="h4">Duyurular</p>
-  <hr class="my-4">
-  <div class="media">
-    <div class="media-body">
-      <h2 class="mt-0">Bilişim Günü 2018</h2>
-      <img class="mr-3" src="{% static '/img/bilisim_header.png' %}" alt="Bilişim Günü">
-      <p class="lead">
-        21. Geleneksel Programlama Yarışması’nın ödül töreni 14 Nisan 2018 tarihinde gerçekleşecek olan “Bilişim Günü”nde yapılacaktır. ODTÜ Kültür Kongre Merkezi'nde gerçekleşecek bu etkinlik kapsamında, JotForm, Siemens gibi yazılım sektörünün büyük şirketlerinin katıldığı seminerler düzenlenecektir. Eğlenceli ve bilgilendirme amaçlı olan seminer ve sunumların yanı sıra ödüllü çekilişler de yapılmaktadır. Günün sonunda ise ödül töreni gerçekleştirilip ilk 3’e giren gruplara para ödülü verilecektir.
-      </p>
-      <p class="lead"> Facebook Etkinliğimiz: <a href="https://goo.gl/WrG1sS">https://goo.gl/WrG1sS</a> </p>
-      <p class="lead"> Eventbrite Etkinliğimiz: <a href="https://goo.gl/iRV5BC"> https://goo.gl/iRV5BC</a> </p>
-    </div>
-  </div>
+<div class="jumbotron info announcements">
+  <h1 class="announcements-title">Duyurular</h1>
+
   <hr class="my-3">
-  <div class="media">
-    <div class="media-body">
-      <h2 class="mt-0">21. Programlama Yarışması</h2>
-      <img class="mr-3" src="{% static '/img/yarisma-banner.png' %}" alt="Programlama Yarışması">
-      <p class="lead">
-        ODTÜ Bilgisayar Topluluğu olarak üniversite öğrencilerini
-        bilgisayar bilimlerine teşvik etmek amacıyla, her sene
-        Türkiye genelinde bir programlama yarışması düzenliyoruz.
-        Bu sene 21.sini düzenlediğimiz programlama yarışmamızın ön
-        eleme etabı 23-26 Mart tarihleri arasında online olarak
-        gerçekleşti. Final etabı 13 Nisan'da ODTÜ Bilgisayar
-        Mühendisliği bölümünde gerçekleşecek. Ayrıntılı bilgi için
-        <a href="{% url 'main:yarisma' %}">yarisma.cclub.metu.edu.tr</a>
-        sitemizi ziyaret edebilirsiniz.
-    </p>
+
+  {% for announcement in announcements %}
+    <div class="announcement">
+      <h2 class="mb-4">{{ announcement.title }}</h2>
+
+      {% if announcement.image is not None %}
+        <img class="mr-4" src="{{ announcement.image.url }}">
+      {% endif %}
+
+      <div class="lead">{{ announcement.content|md|safe }}</div>
     </div>
-  </div>
+
+    <hr class="my-4">
+  {% endfor %}
+
 </div>

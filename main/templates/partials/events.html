@@ -1,71 +1,32 @@
 {% load static %}
+{% load iterate_all %}
+{% load md %}
 
-<div class="jumbotron info">
-  <p class="h1">Etkinliklerimiz</p>
-  <hr class="my-4">
-  <p class="h2">Programlama Yarışması</p>
-  <p class="lead">
-    ODTÜ Bilgisayar Topluluğu olarak üniversite öğrencilerini bilgisayar bilimlerine teşvik etmek amacıyla, her sene
-    Türkiye genelinde bir programlama yarışması düzenliyoruz. Geçtiğimiz yıl 20.si gerçekleşen yarışmamızın 21.sinin ön
-    eleme etabı 23-26 Mart tarihleri arasında online olarak gerçekleşti. Final etabı 13 Nisan 2018'de ODTÜ Bilgisayar
-    Mühendisliği bölümünde gerçekleşecek.
-  </p>
-  <p class="lead">
-    Yarışmaya katılmak için en fazla üçer
-    kişiden oluşan öğrenci grupları, ön eleme sorularını
-    çözerek yarışmamızın resmi başvuru ve kayıt sayfası olan <a href="{% url 'main:yarisma' %}">http://yarisma.cclub.metu.edu.tr</a>
-    adresine cevaplarını gönderirler. İlk aşamada gönderilen programlar,
-    Linux işletim sistemi kurulu bilgisayarlarda derlenerek değerlendirilir
-    ve belirlenen finalist gruplar, ODTÜ Bilgisayar Mühendisliği Bölümü
-    bilgisayar laboratuvarlarında yapılacak finale davet edilirler. Ankara
-    dışından finale katılmaya hak kazanan yarışmacıların ODTÜ'de
-    konaklamaları ve yol masrafları topluluğumuz tarafından karşılanır.
-  </p>
-  <p class="lead">
-    Final aşamasında yine benzer formatta sorularla karşılaşan gruplar
-    bu kez zamana karşı yarışırlar. Bu aşamada, her grup için bir
-    bilgisayar temin edilerek, grup olmanın avantajını kullanmaları ve
-    soruları organize bir şekilde yanıtlamaları beklenmektedir.
-  </p>
-  <a href="{% static '/img/yarisma.jpg' %}"><img class="leftimage rounded inpar" src="{% static '/img/yarisma_thumbnail.jpg' %}" alt="Programlama Yarışması-Bilişim Günü"></a>
-  <a href="{% static '/img/bilisim.jpg' %}"><img class="rightimage rounded inpar" src="{% static '/img/yarisma_thumbnail.jpg' %}" alt="Programlama Yarışması-Bilişim Günü"></a>
-  <p class="h2">Bilişim Günü</p>
-  <p class="lead">
-    21. Geleneksel Programlama Yarışması’nın ödül töreni 14 Nisan 2018 tarihinde gerçekleşecek olan “Bilişim Günü”nde
-    yapılacaktır. ODTÜ Kültür Kongre Merkezi'nde gerçekleşecek bu etkinlik kapsamında, JotForm, Siemens gibi yazılım
-    sektörünün büyük şirketlerinin katıldığı seminerler düzenlenecektir. Eğlenceli ve bilgilendirme amaçlı olan seminer
-    ve sunumların yanı sıra ödüllü çekilişler de yapılmaktadır. Günün sonunda ise ödül töreni gerçekleştirilip ilk 3’e
-    giren gruplara para ödülü verilecektir.
-  </p>
-  <p class="h2">Teoriden Pratiğe</p>
-  <p class="lead">
-    Öğrencilere eğitim hayatları boyunca öğretilen teorik bilgilerin
-    onlarda uyandırdığı “Ben bu bilgileri iş hayatında nasıl
-    kullanacağım?” ve benzeri soruları cevaplamayı amaçlayan,
-    sektörden seçkin insanların tecrübelerini ve bu teorik bilgileri
-    nasıl kullandıklarını anlattıkları konuşmalardan oluşan
-    “Teoriden Pratiğe” adlı etkinliğimizi ilk kez 2 Aralık 2017 tarihinde
-    düzenledik. Etkinlikte Arçelik, ING Bank ve Taleworlds Entertainment yer aldı. Her
-    yıl düzenlemeyi planladığımız bu etkinliğin, hedef
-    kitlemiz olan 3-4. sınıfta okuyan mühendislik ve beşeri bilimler
-    öğrencileri için faydalı ve yol gösterici olacağına inanıyoruz.
-  </p>
-  <p class="h2">S-Talk</p>
-  <p class="lead">
-    Dönemde 3-4 kez düzenlemeyi planladığımız bu etkinlikler, bilgisayar
-    ve teknoloji alanında bilgili/tecrübeli kişiler tarafından verilecek
-    eğitici kısa konuşmalar fikriyle çıktı. İlkini 26 Ekim 2017’de
-    “Reinforcement Learning” alanında gerçekleştirdik. ODTÜ Bilgisayar
-    Mühendisliği bölümünden iki asistanımız ICTAI 2017 konferansından
-    davet alan makalelerini bizlere sundu. Sıradaki S-talk’lar için
-    şirketler ve eğitimcilerle görüşmelerimiz devam ediyor.
-  </p>
-  <p class="h2">Codenight</p>
-  <p class="lead">
-    Eğitim ve sosyal etkinliklerin arasında bir yerde olan bu
-    etkinliği dönemde 3-4 kere düzenlemeye çalışıyoruz. Bölümdeki
-    bilgisayar laboratuvarlarından birinde toplanıp, kendi projelerimiz
-    üzerinde çalışarak sabahlıyoruz. Bir yandan birbirimize yardım ediyor
-    bir yandan da birbirimizi daha iyi tanıyor, eğleniyoruz.
-  </p>
+<div class="jumbotron info events">
+  <h1 class="events-title">Etkinliklerimiz</h1>
+
+  <hr class="my-3">
+
+  {% for event in events %}
+    <div class="event">
+      <h2 class="mb-4">{{ event.title }}</h2>
+
+      {% if event.main_image %}
+        <img class="mr-4" src="{{ main_event.image.url }}">
+      {% endif %}
+
+      <div class="lead">{{ event.content|md|safe }}</div>
+
+      <div class="event-images row wrap justify-content-center align-items-center">
+        {% for event_image in event.images|iterate_all %}
+          <div class="col-md-6 col-12 p-3">
+            <img src="{{ event_image.image.url }}">
+          </div>
+        {% endfor %}
+      </div>
+
+    </div>
+
+    <hr class="my-4">
+  {% endfor %}
 </div>

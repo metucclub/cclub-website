@@ -1,46 +1,6 @@
 {% load static %}
+{% load md %}
 
-<div class="jumbotron info" id="info">
-  <p class="h1">Biz Kimiz?</p>
-  <p class="lead">ODTÜ Bilgisayar Topluluğu 1989 yılında kurulmuş, ODTÜ Kültür İşleri Müdürlüğü denetiminde varlığını sürdüren bir öğrenci topluluğudur. Akademik danışmanı, ODTÜ Bilgisayar Mühendisliği Bölümü öğretim üyelerinden Prof. Dr. Göktürk Üçoluk'tur. Topluluğumuz yaptığı çalışmalar, geliştirdiği ve geliştirmekte olduğu projeler ve düzenlediği etkinliklerle sosyal, çağdaş ve alanında öncü bir topluluk olup çalışmaları ülke genelinde örnek gösterilmektedir.</p>
-
-      <!-- (1) video wrapper -->
-      <div class="youtube" data-embed="wWWsI1aH5Iw">
-
-          <!-- (2) the "play" button -->
-          <div class="play-button"></div>
-
-      </div>
-  <hr class="my-4">
-  <p class="h1">Amaçlarımız</p>
-  <ul>
-    <li>Akademik düzeyde eğitim alan öğrencilerin bilgisayar bilimleri konusundaki sorularına yanıt vermek</li>
-    <li>Öğrencileri bilgisayar bilimine ve bilişime teşvik etmek</li>
-    <li>Bilgisayar mantığını, teknolojisi, işlevi ve diğer bütün yönleriyle tanıtmak ve yaymak</li>
-    <li>Bilgisayarla ilgilenen ve ilgilenmek isteyenleri aynı çatı altında toplamak, profesyonel bakış açısını ve öğrenci bakış açısını, tecrübe ve isteği bir araya getirmek</li>
-  </ul>
-  <p class="lead" style="padding-left: 40px"><a href="{% url 'main:tuzuk' %}">Topluluk Tüzüğü</a> </p>
-
+<div class="jumbotron info">
+  <div class="lead">{{ about_text|md|safe }}</div>
 </div>
-<script>
-var youtube = document.querySelectorAll( ".youtube" );
-for (var i = 0; i < youtube.length; i++) {
-    // add the code here
-    var source = "https://img.youtube.com/vi/"+ youtube[i].dataset.embed +"/sddefault.jpg";
-    var image = new Image();
-    image.src = source;
-    image.addEventListener( "load", function() {
-        youtube[ i ].appendChild( image );
-    }( i ) );
-    youtube[i].addEventListener( "click", function() {
-      var iframe = document.createElement( "iframe" );
-
-          iframe.setAttribute( "frameborder", "0" );
-          iframe.setAttribute( "allowfullscreen", "" );
-          iframe.setAttribute( "src", "https://www.youtube.com/embed/"+ this.dataset.embed +"?rel=0&showinfo=0&autoplay=1" );
-
-          this.innerHTML = "";
-          this.appendChild( iframe );
-  } );
-}
-</script>

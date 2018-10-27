@@ -1,22 +1,16 @@
-body,html {
-    height: 100%;
-    margin: 0;
-    background: #222;
-}
-i{
-  right: 5px;
-  position: relative;
-  vertical-align: middle;
-}
-ul li{
-  font-size: 1.2em;
+body, html {
+  height: 100%;
+  margin: 0;
+  background: #222;
 }
 
-.img-responsive{
-  width: 60px;
+.navbar img {
+  max-width: 60px;
   height: auto;
 }
-
+.navbar li {
+  font-size: 1.2rem;
+}
 
 @media only screen and (min-width: 1200px) {
   .carousel-item{
@@ -34,17 +28,8 @@ ul li{
   }
 }
 
-.media{
-  margin: 10px;
-}
-
 .carousel-caption{
   padding-bottom: 50px;
-}
-
-.leftimage {
-  width: 48%;
-  height: auto;
 }
 
 .carousel-inner .carousel-item img {
@@ -53,44 +38,42 @@ ul li{
     transform: translateY(-50%);
     z-index: -1
 }
-.overlay {
-    background: linear-gradient(to bottom, rgba(255,255,255,0),#000);
-    bottom: 0;
-    left: 0;
-    opacity: .9;
-    position: absolute;
-    right:0;
-    top:0;
-    z-index: 1;
-}
 
-.rightimage {
-  width: 48%;
-  height: auto;
+.overlay {
+  background: linear-gradient(to bottom, rgba(255,255,255,0),#000);
+  bottom: 0;
+  left: 0;
+  opacity: .9;
+  position: absolute;
+  right:0;
+  top:0;
+  z-index: 1;
 }
 
 .bg {
-    /* The image used */
-    background-image: url("../img/bg1.jpg");
-    /* Full height */
-    height: 80%;
+  /* The image used */
+  background-image: url("../img/bg1.jpg");
+  /* Full height */
+  height: 80%;
 
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .inpar {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
+
 #links li {
   list-style-type: none;
 }
+
 .midText{
-    padding-top: 15%;
-    text-align: center;
-    flex:auto;
+  padding-top: 15%;
+  text-align: center;
+  flex:auto;
 }
 
 .footer {
@@ -101,14 +84,12 @@ ul li{
   background: #343a40;
   width: 100%!important;
   bottom: 0;
-
 }
 
 .info{
   margin-top: 10px;
   background: #ccc;
 }
-
 
 .card{
   margin-top: 5px;
@@ -118,44 +99,13 @@ ul li{
   padding-bottom: 30px;
 }
 
-p.lead {
-    font-size: 1.2rem;
-}
-
-.mt-0 {
-  margin-bottom: 16px;
-}
-
-.mr-2{
-  display: inline-block;
-  float: left;
-  width: 25%;
-}
-@media only screen and (max-width: 600px) {
-  .mr-2{
-    width: 50%;
-  }
-}
-
-.mr-3{
-  display: inline-block;
-  float: left;
-  width: 50%;
-}
-@media only screen and (max-width: 600px) {
-  .mr-3{
-    width: 100%;
-    margin-bottom: 12px;
-  }
-}
-
 .galerimg{
   width: 47%;
   margin: 1%;
 }
+
 @media only screen and (max-width: 600px) {
-  .galerimg
-  {
+  .galerimg {
     width: 100%;
     margin-top: 5px;
   }
@@ -172,7 +122,6 @@ p.lead {
   font-size: 2em;
 }
 
-
 .Header {
   color: #fff;
   font-size: 3em;
@@ -183,6 +132,7 @@ p.lead {
   text-shadow: 4px 4px 4px rgba(0,0,0,0.4);
   color: #fff;
 }
+
 @media only screen and (max-width: 600px) {
   .Header {
     color: #fff;
@@ -195,6 +145,7 @@ p.lead {
     color: #fff;
   }
 }
+
 #errorBg{
   /* The image used */
   background-image: url("../img/error.png");
@@ -251,9 +202,42 @@ p.lead {
     left: 50%;
     transform: translate3d( -50%, -50%, 0 );
 }
+
 .youtube iframe {
     height: 100%;
     width: 100%;
     top: 0;
     left: 0;
+}
+
+.announcement {
+}
+
+.announcement > img {
+  float: left;
+  max-width: 50%;
+}
+
+.event {
+
+}
+
+.event > img {
+  float: left;
+  max-width: 50%;
+}
+
+.event .event-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.useful-links ul {
+  list-style: none;
+  font-size: 1.1rem;
+}
+
+.useful-links li {
+  margin: 4px 0;
 }

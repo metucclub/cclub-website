@@ -6,23 +6,39 @@ from django.shortcuts import render, redirect
 from django.http import FileResponse
 from django.contrib.staticfiles.templatetags.staticfiles import static
 
+from .models import Announcement, Event, Option, UsefulLink
+
 def home_view(request):
-    return render(request, 'pages/home_page.html')
+    announcements = Announcement.objects.all()
+    about_text = Option.objects.get(name='about_text').value
+
+    return render(request, 'pages/home_page.html', {'announcements': announcements, 'about_text': about_text})
 
 def about_view(request):
-    return render(request, 'pages/about_page.html')
+    about_text = Option.objects.get(name='about_text').value
+
+    return render(request, 'pages/about_page.html', {'about_text': about_text})
 
 def announce_view(request):
-    return render(request, 'pages/announce_page.html')
+    announcements = Announcement.objects.all()
+
+    return render(request, 'pages/announce_page.html', {'announcements': announcements})
 
 def events_view(request):
-    return render(request, 'pages/events_page.html')
+    events = Event.objects.all()
+
+    return render(request, 'pages/events_page.html', {'events': events})
 
 def contact_view(request):
     return render(request, 'pages/contact_page.html')
 
 def bilisim_gunu_view(request):
     return render(request, 'pages/bilisim_gunu_page.html')
+
+def useful_links_view(request):
+    useful_links = UsefulLink.objects.all()
+
+    return render(request, 'pages/useful_links_page.html', {'useful_links': useful_links})
 
 def bergi_view(request):
     return redirect('https://e-bergi.com')
