@@ -7,17 +7,17 @@
   <hr class="my-3">
 
   {% for announcement in announcements %}
-    <div class="announcement">
-      <h2 class="mb-4">{{ announcement.title }}</h2>
+  <div class="announcement">
+    <h2 class="mb-4">{{ announcement.title }}</h2>
 
-      {% if announcement.image is not None %}
-        <img class="mr-4" src="{{ announcement.image.url }}">
-      {% endif %}
+    {% if announcement.image is not None %}
+    <img class="mr-4" src="{{ announcement.image.url }}">
+    {% endif %}
 
-      <div class="lead">{{ announcement.content|md|safe }}</div>
-    </div>
+    <div class="lead">{{ announcement.content|md|safe }}</div>
+  </div>
 
-    <hr class="my-4">
+  <hr class="my-4">
   {% endfor %}
 
 </div>

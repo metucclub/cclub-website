@@ -6,7 +6,8 @@
       <img src="{% static 'img/logosmall.png' %}" alt="CClub">
     </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
 
@@ -24,14 +25,14 @@
         <li class="nav-item {% if request.resolver_match.url_name == 'useful_links' %} active {% endif %}">
           <a class="nav-link" href="{% url 'main:useful_links' %}">Faydalı Linkler</a>
         </li>
-        <li class="nav-item {% if request.resolver_match.url_name == 'contact' %} active {% endif %}">
-          <a class="nav-link" href="{% url 'main:contact' %}">İletişim</a>
-        </li>
         <li class="nav-item {% if request.resolver_match.url_name == 'bilisim_gunu' %} active {% endif %}">
           <a class="nav-link" href="{% url 'main:bilisim_gunu' %}">Bilişim Günü</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="{% url 'main:bergi' %}">e-bergi</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'contact' %} active {% endif %}">
+          <a class="nav-link" href="{% url 'main:contact' %}">İletişim</a>
         </li>
       </ul>
     </div>
