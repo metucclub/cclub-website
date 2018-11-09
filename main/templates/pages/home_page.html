@@ -1,7 +1,13 @@
 {% extends '../base_layout.html' %}
 
+{% load md %}
+
 {% block content %}
 {% include '../partials/announce.html' %}
-{% include '../partials/about.html' %}
-{% include '../partials/contact.html' %}
+<div class="jumbotron info">
+  <div class="lead">{{ about_text|md|safe }}</div>
+</div>
+<div class="jumbotron info">
+  <div class="lead">{{ contact_text|md|safe }}</div>
+</div>
 {% endblock %}

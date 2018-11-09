@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item {% if request.resolver_match.url_name == 'about' %} active {% endif %}">
-          <a class="nav-link" href="{% url 'main:about' %}">Hakkında</a>
+          <a class="nav-link" href="{% url 'main:about' %}">Hakkımızda</a>
         </li>
         <li class="nav-item {% if request.resolver_match.url_name == 'announce' %} active {% endif %}">
           <a class="nav-link" href="{% url 'main:announce' %}">Duyurular</a>

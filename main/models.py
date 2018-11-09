@@ -1,9 +1,5 @@
-# -*- coding: utf-8 -*-
-from __future__ import unicode_literals
-
 from django.utils.timezone import now
 from django.db import models
-
 
 class Event(models.Model):
     title = models.CharField(max_length=40)
@@ -15,11 +11,9 @@ class Event(models.Model):
     def __str__(self):
         return self.title
 
-
 class EventImage(models.Model):
-    event = models.ForeignKey(Event, related_name='images')
+    event = models.ForeignKey(Event, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField()
-
 
 class Announcement(models.Model):
     title = models.CharField(max_length=40)
@@ -35,17 +29,6 @@ class Announcement(models.Model):
     class Meta:
         ordering = ['-time']
 
-
-class Option(models.Model):
-    name = models.CharField(max_length=40)
-    value = models.TextField()
-
-    objects = models.Manager()
-
-    def __str__(self):
-        return self.name
-
-
 class UsefulLink(models.Model):
     title = models.CharField(max_length=100)
     icon = models.CharField(max_length=20, blank=True,
@@ -56,7 +39,6 @@ class UsefulLink(models.Model):
 
     def __str__(self):
         return self.title
-
 
 class CarouselItem(models.Model):
     title = models.CharField(max_length=100)
