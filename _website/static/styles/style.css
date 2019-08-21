@@ -1,0 +1,282 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  height: 100%;
+}
+
+b,
+strong {
+  font-weight: bold;
+}
+
+body>.container {
+  min-height: 90vh;
+}
+
+.navbar>.d-flex {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right: auto;
+
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.navbar img {
+  max-width: 60px;
+  height: auto;
+}
+
+.navbar li {
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.jumbotron img {
+  width: 100%;
+}
+
+.jumbotron,
+.jumbotron .lead {
+  font-size: 1.1rem !important;
+}
+
+.carousel-overlay {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #000);
+  bottom: -2.5px;
+  left: 0;
+  opacity: .9;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.footer {
+  color: #aaa;
+  padding: 7px;
+  text-align: center;
+  background: #100313;
+  width: 100% !important;
+}
+
+#contact-links li {
+  list-style-type: none;
+  font-size: 1.2rem;
+}
+
+.jumbotron {
+  margin-top: 10px;
+  background: #ccc;
+}
+
+.carousel-title {
+  color: #fff;
+  font-size: 3em;
+  text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.6);
+}
+
+.carousel-subtitle {
+  font-size: 2em;
+  text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.4);
+  color: #fff;
+}
+
+.carousel-caption {
+  padding-bottom: 50px;
+}
+
+.carousel-inner .carousel-item img {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: -1
+}
+
+.youtube {
+  background-color: #000;
+  margin-bottom: 30px;
+  position: relative;
+  padding-top: 56.25%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.youtube img {
+  width: 100%;
+  top: -16.84%;
+  left: 0;
+  opacity: 0.8;
+}
+
+.youtube .play-button {
+  width: 90px;
+  height: 60px;
+  background-color: #333;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  opacity: 0.8;
+  border-radius: 10px;
+}
+
+.youtube .play-button:before {
+  content: "";
+  border-style: solid;
+  border-width: 15px 0 15px 26.0px;
+  border-color: transparent transparent transparent #fff;
+}
+
+.youtube img,
+.youtube .play-butinfoton {
+  cursor: pointer;
+}
+
+.youtube img,
+.youtube iframe,
+.youtube .play-button,
+.youtube .play-button:before {
+  position: absolute;
+}
+
+.youtube .play-button,
+.youtube .play-button:before {
+  top: 50%;
+  left: 50%;
+  transform: translate3d(-50%, -50%, 0);
+}
+
+.youtube iframe {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.announcement {}
+
+.announcement>img {
+  float: left;
+  max-width: 50%;
+}
+
+.event {}
+
+.event>img {
+  float: left;
+  max-width: 50%;
+}
+
+.event .event-images img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.useful-links ul {
+  list-style: none;
+  font-size: 1.1rem;
+}
+
+.useful-links li {
+  margin: 4px 0;
+}
+
+.change-lang-link span {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.change-lang-link span.active {
+  color: rgba(255, 255, 255, 1);
+}
+
+.sponsors {
+  background-color: #fefefe;
+
+  padding: 40px 10px;
+}
+
+.sponsors div {
+  text-align: center;
+}
+
+.sponsors img {
+  width: 100%;
+}
+
+ul li[type="circle"] {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.contest-rules,
+.supported-languages {
+  font-size: 1.2rem;
+}
+
+.faq li:not([type="circle"]) {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.faq li[type="circle"] {
+  font-size: 1.1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  .carousel-title {
+    color: #fff;
+    font-size: 2em;
+    text-shadow: 5px 5px 5px rgba(0, 0, 0, 0.6);
+  }
+
+  .carousel-subtitle {
+    font-size: 1em;
+    text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.4);
+    color: #fff;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  .carousel-item {
+    width: 100%;
+    height: 60vh;
+  }
+
+  .change-lang-link {
+    position: absolute;
+    right: 7px;
+  }
+
+  .jumbotron,
+  .jumbotron .lead {
+    font-size: 1.2rem !important;
+  }
+
+  .navbar-brand {
+    position: absolute;
+    left: 7px;
+  }
+}
+
+@media only screen and (max-width: 1200px) {
+  .carousel-item {
+    height: 80vh;
+  }
+
+  .carousel-item .w-100 {
+    height: 100vh;
+    object-fit: cover;
+  }
+}

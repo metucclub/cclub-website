@@ -1,0 +1,21 @@
+sudo: required
+
+dist: bionic
+language: bash
+
+services:
+  - docker
+
+before_script:
+  - docker login -u "$REGISTRY_USER" -p "$REGISTRY_PASS"
+
+script:
+  - docker pull "${IMAGE_NAME}"
+  - docker build --cache-from "${IMAGE_NAME}:latest" -t "${IMAGE_NAME}" .
+
+after_success:
+  - docker push "${IMAGE_NAME}"
+
+branches:
+  only:
+    - prod

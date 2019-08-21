@@ -1,0 +1,72 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-03-12 23:13+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: _website/templates/contest_site/__base_layout.html:68
+#: _website/templates/main_site/__base_layout.html:60
+msgid "metu_computer_club"
+msgstr "METU Computer Club"
+
+#: _website/templates/contest_site/pages/404.html:11
+#: _website/templates/main_site/pages/404.html:11
+msgid "error_404"
+msgstr "Page Requested is Not Available"
+
+#: _website/templates/contest_site/pages/faq_page.html:11
+msgid "contest_rules"
+msgstr "Contest Rules"
+
+#: _website/templates/contest_site/pages/faq_page.html:25
+msgid "supported_languages"
+msgstr "Supported Languages"
+
+#: _website/templates/contest_site/pages/faq_page.html:39
+#: _website/templates/contest_site/partials/_navbar.html:30
+msgid "faq"
+msgstr "F.A.Q."
+
+#: _website/templates/contest_site/partials/_navbar.html:20
+#: _website/templates/main_site/partials/_navbar.html:47
+msgid "programming_contest"
+msgstr "Programming Contest"
+
+#: _website/templates/main_site/partials/_announce.html:7
+#: _website/templates/main_site/partials/_navbar.html:30
+msgid "announcements"
+msgstr "Announcements"
+
+#: _website/templates/main_site/partials/_events.html:8
+#: _website/templates/main_site/partials/_navbar.html:34
+msgid "events"
+msgstr "Events"
+
+#: _website/templates/main_site/partials/_navbar.html:20
+msgid "homepage"
+msgstr "Homepage"
+
+#: _website/templates/main_site/partials/_navbar.html:37
+#: _website/templates/main_site/partials/_useful_links.html:3
+msgid "useful_links"
+msgstr "Useful Links"
+
+#~ msgid "sponsors"
+#~ msgstr "Sponsors"
+
+#~ msgid "about_us"
+#~ msgstr "About Us"

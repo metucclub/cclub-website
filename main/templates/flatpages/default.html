@@ -1,9 +1,0 @@
-{% extends '../base_layout.html' %}
-
-{% load md %}
-
-{% block content %}
-<div class="jumbotron info">
-  <div class="lead">{{ flatpage.content|md|safe }}</div>
-</div>
-{% endblock %}

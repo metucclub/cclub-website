@@ -1,0 +1,33 @@
+{% extends '../__base_layout.html' %}
+
+{% load md %}
+{% load select_lang %}
+{% load select_content %}
+
+
+{% block carousel %}
+  {% include '../partials/_carousel.html' %}
+{% endblock %}
+
+{% block content %}
+  {% include '../partials/_announce.html' %}
+
+  <div class="jumbotron info">
+    <div class="lead">{{ about_page|select_lang|select_content|md|safe }}</div>
+  </div>
+  <div class="jumbotron info">
+    <div class="lead">{{ contact_page|select_lang|select_content|md|safe }}</div>
+  </div>
+{% endblock %}
+
+{% block sponsors %}
+  {% if main_site_sponsors_page %}
+    <div class="sponsors d-flex justify-content-center">
+      <div class="sponsors justify-content-center">
+        <div class="container">
+          {{ main_site_sponsors_page|select_lang|select_content|md|safe }}
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

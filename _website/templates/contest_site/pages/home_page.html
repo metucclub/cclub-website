@@ -1,0 +1,19 @@
+{% extends '../__base_layout.html' %}
+
+{% load md %}
+{% load select_lang %}
+{% load select_content %}
+
+{% block carousel %}
+  {% if options.contest_site_banner %}
+    <div>
+      <img class="d-block w-100" src="{{ options.contest_site_banner.url }}">
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <div class="jumbotron info">
+    <div class="lead">{{ home_page|select_lang|select_content|md|safe }}</div>
+  </div>
+{% endblock %}

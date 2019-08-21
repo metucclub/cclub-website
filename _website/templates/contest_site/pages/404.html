@@ -1,0 +1,16 @@
+{% extends '../__base_layout.html' %}
+
+{% load static %}
+{% load i18n %}
+
+{% block content %}
+<div>
+  <div class="container">
+    <div class="jumbotron info" style="position: absolute; top: 50%; left: 50%; transform: translateX(-50%) translateY(-50%); text-align:center;">
+        <h1>404 Not Found</h1>
+        <h2>{% trans 'error_404' %}</h2>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

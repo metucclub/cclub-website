@@ -1,20 +1,34 @@
-FROM python:3.6-alpine
-
-RUN apk add --update build-base python-dev py-pip jpeg-dev zlib-dev
-ENV LIBRARY_PATH=/lib:/usr/lib
-
-ENV PYTHONUNBUFFERED 1
+FROM python:3-alpine
 
 RUN mkdir /app
 WORKDIR /app
 
-ADD requirements.txt .
+RUN apk add --update \
+    build-base \
+    jpeg-dev \
+    zlib-dev \
+    postgresql-dev \
+    gettext \
+    git \
+    bash \
+    zip \
+    unzip
 
-RUN pip install -r requirements.txt
+ENV LIBRARY_PATH=/lib:/usr/lib
 
-ADD . .
+ENV PYTHONUNBUFFERED 1
+ENV DJANGO_SETTINGS_MODULE website.settings.docker
 
-CMD sh -c "python manage.py migrate && \
-        python manage.py collectstatic --no-input && \
-        ./restore-data.sh db.zip && \
-		python3 manage.py runserver 0.0.0.0:8000"
+COPY requirements.txt .
+
+RUN pip install -r requirements.txt && \
+    pip install gunicorn
+
+COPY . .
+
+RUN git clone https://github.com/oznakn/docker-scripts && \
+  	mv docker-scripts/*.sh . && \
+  	rm -rf docker-scripts && \
+	mkdir -p ./db
+
+RUN chmod a+x backup-data.sh restore-data.sh docker-wait-for-it.sh
