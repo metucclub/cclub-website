@@ -9,10 +9,12 @@ RUN apk add --update \
     zlib-dev \
     postgresql-dev \
     gettext \
-    git \
     bash \
     zip \
-    unzip
+    unzip \
+    git \
+	nano \
+	vim
 
 ENV LIBRARY_PATH=/lib:/usr/lib
 

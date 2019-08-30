@@ -7,9 +7,6 @@ from django.contrib.auth.models import User, Group
 
 from .models import *
 
-admin.site.unregister(User)
-admin.site.unregister(Group)
-
 csrf_protect_m = method_decorator(csrf_protect)
 
 class SponsorImageInline(admin.TabularInline):
