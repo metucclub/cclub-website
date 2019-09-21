@@ -1,12 +1,11 @@
 {% load static %}
-{% load select_lang %}
 {% load md %}
 
 {% if main_carousel_items %}
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
 
-    {% for carousel_item in main_carousel_items|select_lang_all %}
+    {% for carousel_item in main_carousel_items.all %}
     <div class="carousel-item {% if forloop.first %} active {% endif %}">
       <img class="d-block w-100" src="{{ carousel_item.image.url }}">
       <div class="carousel-overlay"></div>

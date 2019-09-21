@@ -5,9 +5,7 @@ from .models import *
 def add_variables_to_context(request):
     lang = translation.get_language()
 
-    options = Option.objects.all()
-
-    if len(options) != 0: options = options[0]
+    options = Option.objects.first()
 
     main_carousel_items = CarouselItem.objects.all()
 

@@ -2,8 +2,6 @@
 {% load compress %}
 {% load i18n %}
 {% load md %}
-{% load select_lang %}
-{% load select_content %}
 
 <!DOCTYPE html>
 <html>
@@ -27,6 +25,10 @@
       html,
       .navbar {
         background: #26003b !important;
+      }
+
+      .footer {
+        background: #100313 !important;
       }
     </style>
     {% endcompress %}
@@ -59,7 +61,7 @@
       <div class="sponsors d-flex justify-content-center">
         <div class="sponsors justify-content-center">
           <div class="container">
-            {{ contest_site_sponsors_page|select_lang|select_content|md|safe }}
+            {{ contest_site_sponsors_page.content|md|safe }}
           </div>
         </div>
       </div>

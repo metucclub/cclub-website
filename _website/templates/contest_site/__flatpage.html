@@ -1,11 +1,9 @@
 {% extends flatpage.blank_page|yesno:"contest_site/__blank.html,contest_site/__base_layout.html" %}
 
 {% load md %}
-{% load select_lang %}
-{% load select_content %}
 
 {% block content %}
 <div class="jumbotron info" style="min-width: 100%; min-height: 100%;">
-  <div class="lead" style="min-width: 100%; min-height: 100%;">{{ flatpage|select_lang|select_content|md|safe }}</div>
+  <div class="lead" style="min-width: 100%; min-height: 100%;">{{ flatpage.content|md|safe }}</div>
 </div>
 {% endblock %}

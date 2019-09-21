@@ -1,7 +1,6 @@
 {% load hosts %}
 {% load i18n %}
 {% load static %}
-{% load select_lang %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="d-flex">
@@ -20,7 +19,7 @@
           <a class="nav-link" href="{% host_url 'home' host 'main_site'%}">{% trans 'homepage' %}</a>
         </li>
 
-        {% for menu_page in main_site_menu_pages_left|select_lang_all %}
+        {% for menu_page in main_site_menu_pages_left.all %}
           <li class="nav-item">
             <a class="nav-link" href="/{{ menu_page.name }}">{{ menu_page.title }}</a>
           </li>
@@ -30,14 +29,14 @@
           <a class="nav-link" href="{% host_url 'announce' host 'main_site' %}">{% trans 'announcements' %}</a>
         </li>
 
-        <!-- <li class="nav-item {% if request.resolver_match.url_name == 'events' %} active {% endif %}">
+        <li class="nav-item {% if request.resolver_match.url_name == 'events' %} active {% endif %}">
           <a class="nav-link" href="{% host_url 'events' host 'main_site' %}">{% trans 'events' %}</a>
-        </li> -->
+        </li>
         <li class="nav-item {% if request.resolver_match.url_name == 'useful_links' %} active {% endif %}">
           <a class="nav-link" href="{% host_url 'useful_links' host 'main_site' %}">{% trans 'useful_links' %}</a>
         </li>
 
-        {% for menu_page in main_site_menu_pages_right|select_lang_all %}
+        {% for menu_page in main_site_menu_pages_right.all %}
           <li class="nav-item">
             <a class="nav-link" href="/{{ menu_page.name }}">{{ menu_page.title }}</a>
           </li>

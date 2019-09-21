@@ -1,12 +1,11 @@
 {% load static %}
 {% load i18n %}
 {% load md %}
-{% load select_lang %}
 
 <div class="jumbotron info announcements">
   <h1 class="announcements-title">{% trans 'announcements' %}</h1>
 
-  {% for announcement in announcements|select_lang_all %}
+  {% for announcement in announcements.all %}
     <hr class="my-3">
 
     <div class="announcement">

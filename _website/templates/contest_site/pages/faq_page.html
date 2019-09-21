@@ -2,7 +2,6 @@
 
 {% load md %}
 {% load i18n %}
-{% load select_lang %}
 
 {% block content %}
 <div class="jumbotron info">
@@ -13,8 +12,8 @@
     <hr class="my-3">
 
     <ul>
-      {% for contest_rule in contest_rules|select_lang_all %}
-      <li>{{ contest_rule.content|md|safe }}</li>
+      {% for contest_rule in contest_rules.all %}
+        <li>{{ contest_rule.content|md|safe }}</li>
       {% endfor %}
     </ul>
   </div>
@@ -41,7 +40,7 @@
     <hr class="my-3">
 
     <ul>
-      {% for faq_item in contest_faq_items|select_lang_all %}
+      {% for faq_item in contest_faq_items.all %}
         <li>{{ faq_item.content }}</li>
         <li type="circle">{{ faq_item.answer|md|safe }}</li>
       {% endfor %}

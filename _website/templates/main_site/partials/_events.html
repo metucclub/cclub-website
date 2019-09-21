@@ -1,15 +1,13 @@
 {% load static %}
-{% load iterate_all %}
 {% load i18n %}
 {% load md %}
-{% load select_lang %}
 
 <div class="jumbotron info events">
   <h1 class="events-title">{% trans 'events' %}</h1>
 
   <hr class="my-3">
 
-  {% for event in events|select_lang_all %}
+  {% for event in events.all %}
   <div class="event">
     <h2 class="mb-4">{{ event.title }}</h2>
 
@@ -20,7 +18,7 @@
     <div class="lead">{{ event.content|md|safe }}</div>
 
     <div class="event-images row wrap justify-content-center align-items-center">
-      {% for event_image in event.images|iterate_all %}
+      {% for event_image in event.images.all %}
       <div class="col-md-6 col-12 p-3">
         <img src="{{ event_image.image.url }}">
       </div>

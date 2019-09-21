@@ -1,8 +1,6 @@
 {% extends '../__base_layout.html' %}
 
 {% load md %}
-{% load select_lang %}
-{% load select_content %}
 
 {% block carousel %}
   {% if options.contest_site_banner %}
@@ -14,6 +12,6 @@
 
 {% block content %}
   <div class="jumbotron info">
-    <div class="lead">{{ home_page|select_lang|select_content|md|safe }}</div>
+    <div class="lead">{{ home_page.content|md|safe }}</div>
   </div>
 {% endblock %}

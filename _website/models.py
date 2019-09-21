@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.timezone import now
+from django.utils import translation
 
 # see https://github.com/praekelt/django-preferences/blob/develop/preferences/
 class SingletonManager(models.Manager):
@@ -15,33 +16,25 @@ class SingletonManager(models.Manager):
 class MultilingualModel(models.Model):
     default_lang = 'tr'
 
-    selected_lang = None
-
     class Meta:
         abstract = True
-
-    def select_lang(self, lang):
-        self.selected_lang = lang
-
-        return self
 
     def __getattribute__(self, name):
         def get(x):
             return super(MultilingualModel, self).__getattribute__(x)
 
         value = None
+
         try:
             value = get(name)
-
-            if isinstance(value, MultilingualModel):
-                value.select_lang(get('selected_lang'))
 
             return value
         except AttributeError as e:
             value = None
 
             try:
-                lang = self.selected_lang
+                lang = translation.get_language().split('-')[0]
+
                 if not lang:
                     lang = self.default_lang
                 if not lang:
@@ -61,11 +54,13 @@ class MultilingualModel(models.Model):
 class IntegerRangeField(models.IntegerField):
     def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
         self.min_value, self.max_value = min_value, max_value
+
         models.IntegerField.__init__(self, verbose_name, name, **kwargs)
 
     def formfield(self, **kwargs):
         defaults = {'min_value': self.min_value, 'max_value':self.max_value}
         defaults.update(kwargs)
+
         return super(IntegerRangeField, self).formfield(**defaults)
 
 class Option(models.Model):
@@ -82,7 +77,7 @@ class SponsorImage(models.Model):
     image = models.ImageField()
 
 class FlatPage(MultilingualModel):
-    site = models.CharField(max_length=20)
+    site = models.CharField(max_length=20, choices=(('main', 'main'), ('contest', 'contest')))
     name = models.CharField(max_length=20)
 
     title_tr = models.CharField(max_length=100)
@@ -100,7 +95,7 @@ class FlatPage(MultilingualModel):
     add_to_menu = models.BooleanField(default=False)
     item_place = models.CharField(
         max_length=1,
-        choices=(('l', 'left'), ('r', 'right')),
+        choices=(('l', 'left'), ('r', 'right'), ('n', 'none')),
         default='r',
     )
 
@@ -120,9 +115,7 @@ class CarouselItem(MultilingualModel):
     image = models.ImageField()
 
     def __str__(self):
-        if self.title != '': return self.title
-
-        return 'no name'
+        return 'no name' if self.title == '' else self.title
 
 class Event(MultilingualModel):
     title_tr = models.CharField(max_length=40)

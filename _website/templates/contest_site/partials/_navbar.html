@@ -1,11 +1,10 @@
 {% load hosts %}
 {% load i18n %}
 {% load static %}
-{% load select_lang %}
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="d-flex">
-    <a class="navbar-brand" href="{% host_url 'home' host 'main_site' %}">
+    <a class="navbar-brand" href="{% host_url 'home' host 'contest_site' %}">
       <img src="{% static 'img/logosmall.png' %}" alt="CClub">
     </a>
 
@@ -20,7 +19,7 @@
           <a class="nav-link" href="{% host_url 'home' host 'contest_site' %}">{% trans 'programming_contest' %}</a>
         </li>
 
-        {% for menu_page in contest_site_menu_pages_left|select_lang_all %}
+        {% for menu_page in contest_site_menu_pages_left.all %}
           <li class="nav-item">
             <a class="nav-link" href="/{{ menu_page.name }}">{{ menu_page.title }}</a>
           </li>
@@ -30,7 +29,7 @@
           <a class="nav-link" href="{% host_url 'faq' host 'contest_site' %}">{% trans 'faq' %}</a>
         </li>
 
-        {% for menu_page in contest_site_menu_pages_right|select_lang_all %}
+        {% for menu_page in contest_site_menu_pages_right.all %}
           <li class="nav-item">
             <a class="nav-link" href="/{{ menu_page.name }}">{{ menu_page.title }}</a>
           </li>
