@@ -150,7 +150,8 @@ class Announcement(MultilingualModel):
         ordering = ['-pk']
 
 class UsefulLink(models.Model):
-    title = models.CharField(max_length=300)
+    title_tr = models.CharField(max_length=300)
+    title_en = models.CharField(max_length=300)
 
     icon = models.CharField(max_length=20, blank=True, null=True, default='book')
     url = models.URLField()
