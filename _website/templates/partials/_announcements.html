@@ -5,7 +5,7 @@
 <div class="jumbotron info announcements">
   <h1 class="announcements-title">{% trans 'announcements' %}</h1>
 
-  {% for announcement in announcements.all %}
+  {% for announcement in announcements %}
     <hr class="my-3">
 
     <div class="announcement">
@@ -18,7 +18,9 @@
           </div>
         {% endif %}
 
-        <div class="col col-12 {% if announcement.image is not None %}col-lg-6{% endif %}">{{ announcement.content|md|safe }}</div>
+        <div class="col col-12 {% if announcement.image is not None %}col-lg-6{% endif %}">
+          {{ announcement.content|md|safe }}
+        </div>
       </div>
 
     </div>

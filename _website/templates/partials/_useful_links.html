@@ -6,15 +6,15 @@
   <hr class="my-4">
   <ul>
     {% for useful_link in useful_links %}
-    <li>
-      <a href="{{ useful_link.url }}" target="_blank">
-        {% if useful_link.icon %}
-          <i class="fa fa-{{ useful_link.icon }}"></i>
-        {% endif %}
+      <li>
+        <a href="{{ useful_link.url }}" target="_blank">
+          {% if useful_link.icon %}
+            <i class="fa fa-{{ useful_link.icon }}"></i>
+          {% endif %}
 
-        {{ useful_link.title }}
-      </a>
-    </li>
+          {{ useful_link.title }}
+        </a>
+      </li>
     {% endfor %}
   </ul>
 </div>

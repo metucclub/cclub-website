@@ -5,8 +5,8 @@ from django.conf import settings
 from django.contrib import admin
 
 urlpatterns = [
-    path('', include('_website.urls')),
     path('1gan/', admin.site.urls),
     path('media/<path:path>', static_serve, {'document_root': settings.MEDIA_ROOT}),
     path('static/<path:path>', static_serve, {'document_root': settings.STATIC_ROOT}),
+    path('', include('_website.urls')),
 ]

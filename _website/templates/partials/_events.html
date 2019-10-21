@@ -8,25 +8,24 @@
   <hr class="my-3">
 
   {% for event in events.all %}
-  <div class="event">
-    <h2 class="mb-4">{{ event.title }}</h2>
+    <div class="event">
+      <h2 class="mb-4">{{ event.title }}</h2>
 
-    {% if event.main_image %}
-    <img class="mr-4" src="{{ main_event.image.url }}">
-    {% endif %}
+      {% if event.main_image %}
+      <img class="mr-4" src="{{ main_event.image.url }}">
+      {% endif %}
 
-    <div class="lead">{{ event.content|md|safe }}</div>
+      <div>{{ event.content|md|safe }}</div>
 
-    <div class="event-images row wrap justify-content-center align-items-center">
-      {% for event_image in event.images.all %}
-      <div class="col-md-6 col-12 p-3">
-        <img src="{{ event_image.image.url }}">
+      <div class="event-images row wrap justify-content-center align-items-center">
+        {% for event_image in event.images.all %}
+          <div class="col-md-6 col-12 p-3">
+            <img src="{{ event_image.image.url }}">
+          </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
 
-  </div>
-
-  <hr class="my-4">
+    <hr class="my-4">
   {% endfor %}
 </div>
