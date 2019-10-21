@@ -2,9 +2,6 @@ from django.urls import path
 
 from _website.views import *
 
-handler404 = '_website.views.error_view'
-handler500 = '_website.views.error_view'
-
 urlpatterns = [
     path('', home_view, name='home'),
     path('toggle-lang/', toggle_lang, name='toggle_lang'),

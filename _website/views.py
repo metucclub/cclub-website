@@ -29,10 +29,6 @@ def flatpage_view(request, name):
     })
 
 
-def error_view(request, *args, **argv):
-    return render(request, 'pages/404.html')
-
-
 def home_view(request):
     carousel_items = CarouselItem.objects.filter(site__pk=request.site)
 
