@@ -1,20 +1,22 @@
 {% load static %}
 {% load md %}
 
-{% if main_carousel_items %}
 <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
 
-    {% for carousel_item in main_carousel_items.all %}
-    <div class="carousel-item {% if forloop.first %} active {% endif %}">
-      <img class="d-block w-100" src="{{ carousel_item.image.url }}">
-      <div class="carousel-overlay"></div>
+    {% for carousel_item in carousel_items.all %}
+      <div class="carousel-item {% if forloop.first %} active {% endif %}">
+        <img class="d-block w-100" src="{{ carousel_item.image.url }}">
 
-      <div class="carousel-caption">
-        <h3 class="carousel-title">{{ carousel_item.title|md|safe }}</h3>
-        <h5 class="carousel-subtitle">{{ carousel_item.subtitle|md|safe }}</h5>
+        {% if carousel_item.title or carousel_item.subtitle %}
+          <div class="carousel-overlay"></div>
+
+          <div class="carousel-caption">
+            <h3 class="carousel-title">{{ carousel_item.title|md|safe }}</h3>
+            <h5 class="carousel-subtitle">{{ carousel_item.subtitle|md|safe }}</h5>
+          </div>
+        {% endif %}
       </div>
-    </div>
     {% endfor %}
 
   </div>
@@ -29,4 +31,3 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
-{% endif %}

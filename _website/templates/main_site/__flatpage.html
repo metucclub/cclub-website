@@ -1,9 +1,0 @@
-{% extends 'main_site/__base_layout.html' %}
-
-{% load md %}
-
-{% block content %}
-<div class="jumbotron info" style="min-width: 100%; min-height: 100%;">
-  <div class="lead" style="min-width: 100%; min-height: 100%;">{{ flatpage.content|md|safe }}</div>
-</div>
-{% endblock %}

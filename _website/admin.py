@@ -9,33 +9,9 @@ from .models import *
 
 csrf_protect_m = method_decorator(csrf_protect)
 
-class SponsorImageInline(admin.TabularInline):
-    model = SponsorImage
+class SponsorInline(admin.TabularInline):
+    model = Sponsor
     extra = 0
-
-# see https://github.com/praekelt/django-preferences/blob/develop/preferences/
-class OptionsAdmin(admin.ModelAdmin):
-    inlines = [SponsorImageInline, ]
-
-    @csrf_protect_m
-    def changelist_view(self, request, extra_context=None):
-        """
-        If we only have a single preference object redirect to it,
-        otherwise display listing.
-        """
-        model = self.model
-        if model.objects.all().count() > 1:
-            return super(OptionsAdmin, self).changelist_view(request)
-        else:
-            obj = model.singleton.get()
-            return redirect(
-                reverse(
-                    'admin:%s_%s_change' % (
-                        model._meta.app_label, model._meta.model_name
-                    ),
-                    args=(obj.id,)
-                )
-            )
 
 class EventImageInline(admin.TabularInline):
     model = EventImage
@@ -44,13 +20,14 @@ class EventImageInline(admin.TabularInline):
 class EventAdmin(admin.ModelAdmin):
     inlines = [EventImageInline, ]
 
-admin.site.register(Option, OptionsAdmin)
 admin.site.register(Event, EventAdmin)
 
+admin.site.register(Site)
+admin.site.register(MenuItem)
 admin.site.register(FlatPage)
 admin.site.register(Announcement)
 admin.site.register(UsefulLink)
 admin.site.register(CarouselItem)
-admin.site.register(ContestSupportedLanguage)
+admin.site.register(ContestLanguage)
 admin.site.register(ContestRule)
-admin.site.register(ContestFAQItem)
+admin.site.register(FAQItem)

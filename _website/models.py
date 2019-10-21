@@ -2,110 +2,55 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils import translation
 
-# see https://github.com/praekelt/django-preferences/blob/develop/preferences/
-class SingletonManager(models.Manager):
-    def get_queryset(self):
-        queryset = super(SingletonManager, self).get_queryset()
+from .utils import *
 
-        if not queryset.exists():
-            obj = self.model.objects.create()
+class Site(models.Model):
+    domain = models.CharField(max_length=100)
+    name = models.CharField(max_length=20)
 
-        return queryset
-
-# see https://goodcode.io/articles/django-multilanguage/
-class MultilingualModel(models.Model):
-    default_lang = 'tr'
-
-    class Meta:
-        abstract = True
-
-    def __getattribute__(self, name):
-        def get(x):
-            return super(MultilingualModel, self).__getattribute__(x)
-
-        value = None
-
-        try:
-            value = get(name)
-
-            return value
-        except AttributeError as e:
-            value = None
-
-            try:
-                lang = translation.get_language().split('-')[0]
-
-                if not lang:
-                    lang = self.default_lang
-                if not lang:
-                    raise
-
-                value = get(name + '_' + lang)
-            except:
-                value = None
-
-
-            # If the translated variant is empty, fallback to default
-            if value is None or value == '':
-                value = get(name + '_' + self.default_lang)
-
-        return value
-
-class IntegerRangeField(models.IntegerField):
-    def __init__(self, verbose_name=None, name=None, min_value=None, max_value=None, **kwargs):
-        self.min_value, self.max_value = min_value, max_value
-
-        models.IntegerField.__init__(self, verbose_name, name, **kwargs)
-
-    def formfield(self, **kwargs):
-        defaults = {'min_value': self.min_value, 'max_value':self.max_value}
-        defaults.update(kwargs)
-
-        return super(IntegerRangeField, self).formfield(**defaults)
-
-class Option(models.Model):
-    objects = models.Manager()
-    singleton = SingletonManager()
-
-    contest_site_banner = models.ImageField()
+    custom_css = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return 'Option'
+        return self.domain
 
-class SponsorImage(models.Model):
-    option = models.ForeignKey(Option, related_name='sponsor_images', on_delete=models.CASCADE)
-    image = models.ImageField()
-
-class FlatPage(MultilingualModel):
-    site = models.CharField(max_length=20, choices=(('main', 'main'), ('contest', 'contest')))
+class MenuItem(MultilingualModel):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
 
     title_tr = models.CharField(max_length=100)
     title_en = models.CharField(max_length=100)
 
+    order = models.PositiveIntegerField(default=1)
+
     redirect_link = models.CharField(max_length=100, default='', blank=True)
+
+    class Meta:
+        ordering = ['site', 'order']
+
+    def __str__(self):
+        return '{} - {} - {}'.format(self.site.name, self.order, self.name)
+
+class FlatPage(MultilingualModel):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+    name = models.CharField(max_length=20)
+
+    title_tr = models.CharField(max_length=100)
+    title_en = models.CharField(max_length=100)
 
     content_tr = models.TextField()
     content_en = models.TextField()
 
     blank_page = models.BooleanField(default=False)
 
-    enable_carousel = models.BooleanField(default=True)
-
-    add_to_menu = models.BooleanField(default=False)
-    item_place = models.CharField(
-        max_length=1,
-        choices=(('l', 'left'), ('r', 'right'), ('n', 'none')),
-        default='r',
-    )
-
     class Meta:
-        ordering = ['name']
+        ordering = ['site', 'name']
 
     def __str__(self):
-        return '{} - {}'.format(self.site, self.title)
+        return '{} - {}'.format(self.site.name, self.name)
 
 class CarouselItem(MultilingualModel):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
     title_tr = models.CharField(max_length=100, blank=True)
     title_en = models.CharField(max_length=100, blank=True)
 
@@ -115,9 +60,11 @@ class CarouselItem(MultilingualModel):
     image = models.ImageField()
 
     def __str__(self):
-        return 'no name' if self.title == '' else self.title
+        return '{} - {} - {}'.format(self.site.name, self.title, self.pk)
 
 class Event(MultilingualModel):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
     title_tr = models.CharField(max_length=40)
     title_en = models.CharField(max_length=40)
 
@@ -128,13 +75,15 @@ class Event(MultilingualModel):
         ordering = ['pk']
 
     def __str__(self):
-        return self.title
+        return '{} - {}'.format(self.site.name, self.title)
 
 class EventImage(models.Model):
     event = models.ForeignKey(Event, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField()
 
 class Announcement(MultilingualModel):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
     title_tr = models.CharField(max_length=40)
     title_en = models.CharField(max_length=40)
 
@@ -143,13 +92,15 @@ class Announcement(MultilingualModel):
 
     image = models.ImageField(blank=True, null=True)
 
-    def __str__(self):
-        return self.title
-
     class Meta:
         ordering = ['-pk']
 
-class UsefulLink(models.Model):
+    def __str__(self):
+        return '{} - {}'.format(self.site.name, self.title)
+
+class UsefulLink(MultilingualModel):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
     title_tr = models.CharField(max_length=300)
     title_en = models.CharField(max_length=300)
 
@@ -157,18 +108,22 @@ class UsefulLink(models.Model):
     url = models.URLField()
 
     def __str__(self):
-        return self.title
+        return '{} - {}'.format(self.site.name, self.title)
 
-class ContestSupportedLanguage(models.Model):
+class ContestLanguage(models.Model):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
     name = models.CharField(max_length=10)
 
     class Meta:
         ordering = ['name']
 
     def __str__(self):
-        return self.name
+        return '{} - {}'.format(self.site.name, self.name)
 
 class ContestRule(MultilingualModel):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
     content_tr = models.TextField()
     content_en = models.TextField()
 
@@ -176,9 +131,11 @@ class ContestRule(MultilingualModel):
         ordering = ['pk']
 
     def __str__(self):
-        return self.content
+        return '{} - {}'.format(self.site.name, self.content)
 
-class ContestFAQItem(MultilingualModel):
+class FAQItem(MultilingualModel):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
     content_tr = models.TextField()
     content_en = models.TextField()
 
@@ -189,4 +146,12 @@ class ContestFAQItem(MultilingualModel):
         ordering = ['pk']
 
     def __str__(self):
-        return self.content
+        return '{} - {}'.format(self.site.name, self.content)
+
+class Sponsor(models.Model):
+    site = models.ForeignKey(Site, on_delete=models.CASCADE)
+
+    image = models.ImageField()
+
+    def __str__(self):
+        return '{} - {}'.format(self.site.name, self.pk)

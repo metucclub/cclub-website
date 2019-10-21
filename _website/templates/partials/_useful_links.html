@@ -1,4 +1,5 @@
 {% load i18n %}
+
 <div class="jumbotron info useful-links">
   <h1>{% trans 'useful_links' %}</h1>
 
@@ -8,8 +9,9 @@
     <li>
       <a href="{{ useful_link.url }}" target="_blank">
         {% if useful_link.icon %}
-        <i class="fa fa-{{ useful_link.icon }}"></i>
+          <i class="fa fa-{{ useful_link.icon }}"></i>
         {% endif %}
+
         {{ useful_link.title }}
       </a>
     </li>

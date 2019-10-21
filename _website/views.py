@@ -1,61 +1,106 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import FileResponse
+from django.http import Http404, FileResponse
 from django.utils import translation
 
 from .models import *
 
-def flatpage_view(request, template, name, site):
-    flatpage = get_object_or_404(FlatPage, name=name, site=site)
+def generate_menu_context(request):
+    site = get_object_or_404(Site, pk=request.site)
+    menu_items = MenuItem.objects.filter(site__pk=request.site)
 
-    if flatpage.redirect_link is not None and flatpage.redirect_link is not '': return redirect(flatpage.redirect_link)
+    sponsors = FlatPage.objects.filter(name='sponsors', site__pk=request.site).first()
 
-    return render(request, template, {
-        'flatpage': flatpage
+    return {
+        'site': site,
+        'sponsors': sponsors,
+        'menu_items': menu_items,
+    }
+
+
+def flatpage_view(request, name):
+    flatpage = get_object_or_404(FlatPage, name=name, site__pk=request.site)
+
+    carousel_items = CarouselItem.objects.filter(site__pk=request.site)
+
+    return render(request, '__flatpage.html', {
+        **generate_menu_context(request),
+        'carousel_items': carousel_items,
+        'flatpage': flatpage,
     })
 
-def main_error_view(request, *args, **argv):
-    return render(request, 'main_site/pages/404.html')
 
-def main_home_view(request):
-    return render(request, 'main_site/pages/home_page.html', {
-        'announcements': Announcement.objects.all(),
-        'about_page': get_object_or_404(FlatPage ,name='about-us', site='main'),
-        'contact_page': get_object_or_404(FlatPage ,name='contact', site='main'),
-        'main_site_sponsors_page': FlatPage.objects.filter(site='main', name='sponsors').first()
+def error_view(request, *args, **argv):
+    return render(request, 'pages/404.html')
+
+
+def home_view(request):
+    carousel_items = CarouselItem.objects.filter(site__pk=request.site)
+
+    about = FlatPage.objects.filter(name='about', site__pk=request.site).first()
+    contact = FlatPage.objects.filter(name='contact', site__pk=request.site).first()
+
+    announcements = Announcement.objects.filter(site__pk=request.site)
+
+    return render(request, 'pages/home.html', {
+        **generate_menu_context(request),
+        'carousel_items': carousel_items,
+        'announcements': announcements,
+        'about': about,
+        'contact': contact,
     })
 
-def main_announce_view(request):
-    return render(request, 'main_site/pages/announce_page.html', {
-        'announcements': Announcement.objects.all()
+
+def announcements_view(request):
+    announcements = Announcement.objects.filter(site__pk=request.site)
+
+    if len(announcements) == 0:
+        raise Http404()
+
+    return render(request, 'pages/announcements.html', {
+        **generate_menu_context(request),
+        'announcements': announcements,
     })
 
-def main_events_view(request):
-    return render(request, 'main_site/pages/events_page.html', {
-        'events': Event.objects.all(),
+
+def events_view(request):
+    events = Event.objects.filter(site__pk=request.site)
+
+    if len(events) == 0:
+        raise Http404()
+
+    return render(request, 'pages/events.html', {
+        **generate_menu_context(request),
+        'events': events,
     })
 
-def main_useful_links_view(request):
-    return render(request, 'main_site/pages/useful_links_page.html', {
-        'useful_links': UsefulLink.objects.all(),
+
+def useful_links_view(request):
+    useful_links = UsefulLink.objects.filter(site__pk=request.site)
+
+    if len(useful_links) == 0:
+        raise Http404()
+
+    return render(request, 'pages/useful_links.html', {
+        **generate_menu_context(request),
+        'useful_links': useful_links,
     })
 
-def main_tuzuk_view(request):
-    return FileResponse(open('./static/docs/tuzuk.pdf', 'rb'), content_type='application/pdf')
 
-def contest_error_view(request, *args, **argv):
-    return render(request, 'contest_site/pages/404.html')
+def faq_view(request):
+    faq_items = FAQItem.objects.filter(site__pk=request.site)
+    contest_rules = ContestRule.objects.filter(site__pk=request.site)
+    contest_languages = ContestLanguage.objects.filter(site__pk=request.site)
 
-def contest_home_view(request):
-    return render(request, 'contest_site/pages/home_page.html', {
-        'home_page': get_object_or_404(FlatPage, name='home', site='contest'),
+    if len(faq_items) == 0 and len(rules) == 0 and len(languages) == 0:
+        raise Http404()
+
+    return render(request, 'pages/faq.html', {
+        **generate_menu_context(request),
+        'faq_items': faq_items,
+        'contest_rules': contest_rules,
+        'contest_languages': contest_languages,
     })
 
-def contest_faq_view(request):
-    return render(request, 'contest_site/pages/faq_page.html', {
-        'contest_rules': ContestRule.objects.all(),
-        'contest_faq_items':ContestFAQItem.objects.all(),
-        'contest_supported_languages': ContestSupportedLanguage.objects.all(),
-    })
 
 def toggle_lang(request):
     lang = 'tr' if translation.get_language() == 'en' else 'en'

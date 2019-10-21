@@ -2,20 +2,28 @@
 
 {% load md %}
 
-
 {% block carousel %}
-  {% include '../partials/_carousel.html' %}
+  {% if carousel_items %}
+    {% include '../partials/_carousel.html' %}
+  {% endif %}
 {% endblock %}
 
 {% block content %}
-  {% include '../partials/_announce.html' %}
+  {% if announcements %}
+    {% include '../partials/_announcements.html' %}
+  {% endif %}
 
+  {% if about %}
+    <div class="jumbotron info">
+      <div class="lead">{{ about.content|md|safe }}</div>
+    </div>
+  {% endif %}
+
+  {% if contact %}
   <div class="jumbotron info">
-    <div class="lead">{{ about_page.content|md|safe }}</div>
+    <div class="lead">{{ contact.content|md|safe }}</div>
   </div>
-  <div class="jumbotron info">
-    <div class="lead">{{ contact_page.content|md|safe }}</div>
-  </div>
+  {% endif %}
 {% endblock %}
 
 {% block sponsors %}

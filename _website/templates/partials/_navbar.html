@@ -1,0 +1,45 @@
+{% load i18n %}
+{% load static %}
+
+{% get_current_language as LANGUAGE_CODE %}
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="d-flex">
+    <a class="navbar-brand" href="{% url 'home' %}">
+      <img src="{% static 'img/logosmall.png' %}" alt="CClub">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mx-auto">
+        <li class="nav-item {% if request.resolver_match.url_name == 'home' %} active {% endif %}">
+          <a class="nav-link" href="{% url 'home' %}">{% trans 'homepage' %}</a>
+        </li>
+
+        {% for menu_item in menu_items %}
+          <li class="nav-item {% if request.trimmed_path == menu_item.name %} active {% endif %}">
+            {% if menu_item.redirect_link %}
+              <a class="nav-link" href="{{ menu_item.redirect_link }}">{{ menu_item.title }}</a>
+            {% else %}
+              <a class="nav-link" href="/{{ menu_item.name }}">{{ menu_item.title }}</a>
+            {% endif %}
+          </li>
+        {% endfor %}
+
+        <li class="nav-item">
+          <a class="change-lang-link nav-link" href="{% url 'toggle_lang' %}?next={{ request.get_full_path }}">
+            {% if LANGUAGE_CODE == 'tr' %}
+              <span class="active">TR</span> | <span>EN</span>
+            {% else %}
+              <span>TR</span> | <span class="active">EN</span>
+            {% endif %}
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

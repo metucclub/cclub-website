@@ -1,0 +1,51 @@
+{% extends '../__base_layout.html' %}
+
+{% load md %}
+{% load i18n %}
+
+{% block content %}
+  <div class="jumbotron info">
+    {% if contest_rules %}
+      <div class="contest-rules">
+        <h1 class="contest-rules-title">{% trans 'contest_rules' %}</h1>
+
+        <hr class="my-3">
+
+        <ul>
+          {% for contest_rule in contest_rules %}
+            <li>{{ contest_rule.content|md|safe }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% if contest_languages %}
+      <div class="supported-languages mt-4">
+        <h1 class="supported-languages-title">{% trans 'supported_languages' %}</h1>
+
+        <hr class="my-3">
+
+        <ul class="row row-wrap">
+          {% for language in contest_languages %}
+            <li class="col-6 col-lg-3">{{ language.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+
+    {% if faq_items %}
+      <div class="faq mt-4">
+        <h1 class="faq-title">{% trans 'faq' %}</h1>
+
+        <hr class="my-3">
+
+        <ul>
+          {% for faq_item in faq_items %}
+            <li>{{ faq_item.content }}</li>
+            <li type="circle">{{ faq_item.answer|md|safe }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

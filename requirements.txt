@@ -2,7 +2,6 @@ Django
 django-cleanup
 csscompressor
 django-compressor
-django-hosts
 markdown2
 Pillow
 psycopg2-binary
