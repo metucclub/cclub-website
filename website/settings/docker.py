@@ -1,7 +1,5 @@
 from .base import *
 
-PARENT_HOST = 'cclub.metu.edu.tr'
-
 DEBUG = False
 
 DATABASES = {
@@ -14,4 +12,4 @@ DATABASES = {
     }
 }
 
-ALLOWED_HOSTS = ['yarisma.cclub.metu.edu.tr', 'cclub.metu.edu.tr', 'www.cclub.metu.edu.tr']
+ALLOWED_HOSTS = ['*']
