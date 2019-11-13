@@ -7,6 +7,7 @@ from martor.models import MartorField
 from .utils import *
 
 class Site(models.Model):
+    display_name = models.CharField(max_length=100)
     domain = models.CharField(max_length=100)
     name = models.CharField(max_length=20)
 
@@ -14,7 +15,7 @@ class Site(models.Model):
     custom_js = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return self.domain
+        return self.name
 
 class MenuItem(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
