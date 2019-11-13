@@ -22,7 +22,7 @@ def flatpage_view(request, name):
 
     carousel_items = CarouselItem.objects.filter(site__pk=request.site)
 
-    return render(request, '__flatpage.html', {
+    return render(request, '__blank.html' if flatpage.blank_page else '__flatpage.html', {
         **generate_menu_context(request),
         'carousel_items': carousel_items,
         'flatpage': flatpage,

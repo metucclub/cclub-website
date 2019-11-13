@@ -1,11 +1,31 @@
-{% extends './__base_layout.html' %}
+{% load static %}
+{% load compress %}
+{% load i18n %}
+{% load md %}
 
-{% block body %}
+<!DOCTYPE html>
+<html>
 
-  {% block stylesheets %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>METU CCLUB</title>
+
+  <link rel="icon" href="{% static 'img/favicon.png' %}">
+
+  {% compress js inline %}
+    {% if site.custom_js %}
+      <script>
+        {{ site.custom_js|safe }}
+      </script>
+    {% endif %}
+  {% endcompress %}
+</head>
+
+<body>
+  {% block body %}
+    {{ flatpage.content|md|safe }}
   {% endblock %}
+</body>
 
-  {% block content %}
-  {% endblock %}
-
-{% endblock %}
+</html>

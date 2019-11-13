@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'compressor',
     '_website',
+    'martor',
     'django_cleanup',
 ]
 
@@ -130,3 +131,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 COMPRESS_ENABLED = True
 COMPRESS_CSS_FILTERS = ['compressor.filters.css_default.CssAbsoluteFilter', 'compressor.filters.cssmin.CSSCompressorFilter']
 COMPRESS_JS_FILTERS = ['compressor.filters.jsmin.JSMinFilter']
+
+MARTOR_ENABLE_CONFIGS = {
+    "imgur": "false",
+    "mention": "false",
+	"jquery": "true",
+	"living": "false",
+	"spellcheck": "true",
+}

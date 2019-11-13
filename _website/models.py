@@ -2,6 +2,8 @@ from django.db import models
 from django.utils.timezone import now
 from django.utils import translation
 
+from martor.models import MartorField
+
 from .utils import *
 
 class Site(models.Model):
@@ -9,6 +11,7 @@ class Site(models.Model):
     name = models.CharField(max_length=20)
 
     custom_css = models.TextField(blank=True, null=True)
+    custom_js = models.TextField(blank=True, null=True)
 
     def __str__(self):
         return self.domain
@@ -37,8 +40,8 @@ class FlatPage(MultilingualModel):
     title_tr = models.CharField(max_length=100)
     title_en = models.CharField(max_length=100)
 
-    content_tr = models.TextField()
-    content_en = models.TextField()
+    content_tr = MartorField()
+    content_en = MartorField()
 
     blank_page = models.BooleanField(default=False)
 
@@ -68,8 +71,8 @@ class Event(MultilingualModel):
     title_tr = models.CharField(max_length=40)
     title_en = models.CharField(max_length=40)
 
-    content_tr = models.TextField()
-    content_en = models.TextField()
+    content_tr = MartorField()
+    content_en = MartorField()
 
     class Meta:
         ordering = ['pk']
@@ -87,8 +90,8 @@ class Announcement(MultilingualModel):
     title_tr = models.CharField(max_length=40)
     title_en = models.CharField(max_length=40)
 
-    content_tr = models.TextField()
-    content_en = models.TextField()
+    content_tr = MartorField()
+    content_en = MartorField()
 
     image = models.ImageField(blank=True, null=True)
 

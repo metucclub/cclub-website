@@ -5,3 +5,4 @@ django-compressor
 markdown2
 Pillow
 psycopg2-binary
+martor
