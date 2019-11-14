@@ -87,7 +87,7 @@ def faq_view(request):
     contest_rules = ContestRule.objects.filter(site__pk=request.site)
     contest_languages = ContestLanguage.objects.filter(site__pk=request.site)
 
-    if len(faq_items) == 0 and len(rules) == 0 and len(languages) == 0:
+    if len(faq_items) == 0 and len(contest_rules) == 0 and len(contest_languages) == 0:
         raise Http404()
 
     return render(request, 'pages/faq.html', {

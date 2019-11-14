@@ -117,7 +117,7 @@ class UsefulLink(MultilingualModel):
 class ContestLanguage(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
-    name = models.CharField(max_length=10)
+    name = models.CharField(max_length=20)
 
     class Meta:
         ordering = ['name']
