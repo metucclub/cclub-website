@@ -2,16 +2,9 @@ from django.contrib import admin
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.urls import reverse
-from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth.models import User, Group
 
 from .models import *
-
-csrf_protect_m = method_decorator(csrf_protect)
-
-class SponsorInline(admin.TabularInline):
-    model = Sponsor
-    extra = 0
 
 class EventImageInline(admin.TabularInline):
     model = EventImage

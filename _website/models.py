@@ -151,11 +151,3 @@ class FAQItem(MultilingualModel):
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.content)
-
-class Sponsor(models.Model):
-    site = models.ForeignKey(Site, on_delete=models.CASCADE)
-
-    image = models.ImageField()
-
-    def __str__(self):
-        return '{} - {}'.format(self.site.name, self.pk)
