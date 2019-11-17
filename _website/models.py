@@ -14,6 +14,9 @@ class Site(models.Model):
     custom_css = models.TextField(blank=True, null=True)
     custom_js = models.TextField(blank=True, null=True)
 
+    class Meta:
+        ordering = ['-pk']
+
     def __str__(self):
         return self.name
 
@@ -47,7 +50,7 @@ class FlatPage(MultilingualModel):
     blank_page = models.BooleanField(default=False)
 
     class Meta:
-        ordering = ['site', 'name']
+        ordering = ['site', 'name', '-pk']
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.name)
@@ -63,6 +66,9 @@ class CarouselItem(MultilingualModel):
 
     image = models.ImageField()
 
+    class Meta:
+        ordering = ['site', '-pk']
+
     def __str__(self):
         return '{} - {} - {}'.format(self.site.name, self.title, self.pk)
 
@@ -76,7 +82,7 @@ class Event(MultilingualModel):
     content_en = MartorField()
 
     class Meta:
-        ordering = ['pk']
+        ordering = ['site', '-pk']
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.title)
@@ -97,7 +103,7 @@ class Announcement(MultilingualModel):
     image = models.ImageField(blank=True, null=True)
 
     class Meta:
-        ordering = ['-pk']
+        ordering = ['site', '-pk']
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.title)
@@ -120,7 +126,7 @@ class ContestLanguage(models.Model):
     name = models.CharField(max_length=20)
 
     class Meta:
-        ordering = ['name']
+        ordering = ['site', 'name', '-pk']
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.name)
@@ -132,7 +138,7 @@ class ContestRule(MultilingualModel):
     content_en = models.TextField()
 
     class Meta:
-        ordering = ['pk']
+        ordering = ['site', '-pk']
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.content)
@@ -147,7 +153,7 @@ class FAQItem(MultilingualModel):
     answer_en = models.TextField()
 
     class Meta:
-        ordering = ['pk']
+        ordering = ['site', '-pk']
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.content)
