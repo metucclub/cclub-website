@@ -21,18 +21,14 @@
       <link rel="stylesheet" href="{% static 'styles/style.css' %}">
 
       {% if site.custom_css %}
-        <style>
-          {{ site.custom_css|safe }}
-        </style>
+        {{ site.custom_css|safe }}
       {% endif %}
     {% endcompress %}
   {% endblock %}
 
   {% compress js inline %}
     {% if site.custom_js %}
-      <script>
-        {{ site.custom_js|safe }}
-      </script>
+      {{ site.custom_js|safe }}
     {% endif %}
   {% endcompress %}
 </head>
