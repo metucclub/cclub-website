@@ -49,6 +49,8 @@ class FlatPage(MultilingualModel):
 
     blank_page = models.BooleanField(default=False)
 
+    home_page_order = models.PositiveIntegerField(default=0, help_text='Make 0 to hide in home page')
+
     class Meta:
         ordering = ['site', 'name', '-pk']
 

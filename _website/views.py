@@ -35,14 +35,15 @@ def home_view(request):
     about = FlatPage.objects.filter(name='about', site__pk=request.site).first()
     contact = FlatPage.objects.filter(name='contact', site__pk=request.site).first()
 
+    flat_pages = FlatPage.objects.filter(site__pk=request.site, home_page_order__gt=0).order_by('home_page_order')
+
     announcements = Announcement.objects.filter(site__pk=request.site)
 
     return render(request, 'pages/home.html', {
         **generate_menu_context(request),
         'carousel_items': carousel_items,
         'announcements': announcements,
-        'about': about,
-        'contact': contact,
+        'flat_pages': flat_pages,
     })
 
 

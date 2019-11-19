@@ -13,27 +13,11 @@
     {% include '../partials/_announcements.html' %}
   {% endif %}
 
-  {% if about %}
-    <div class="jumbotron info">
-      <div class="lead">{{ about.content|md|safe }}</div>
-    </div>
-  {% endif %}
-
-  {% if contact %}
-    <div class="jumbotron info">
-      <div class="lead">{{ contact.content|md|safe }}</div>
-    </div>
-  {% endif %}
-{% endblock %}
-
-{% block sponsors %}
-  {% if main_site_sponsors_page %}
-    <div class="sponsors d-flex justify-content-center">
-      <div class="sponsors justify-content-center">
-        <div class="container">
-          {{ main_site_sponsors_page.content|md|safe }}
-        </div>
+  {% if flat_pages %}
+    {% for flat_page in flat_pages %}
+      <div class="jumbotron info">
+        <div class="lead">{{ flat_page.content|md|safe }}</div>
       </div>
-    </div>
+    {% endfor %}
   {% endif %}
 {% endblock %}
