@@ -45,11 +45,11 @@ class FlatPage(MultilingualModel):
 
     redirect_link = models.CharField(max_length=1000, default='', blank=True)
 
-    title_tr = models.CharField(max_length=100)
-    title_en = models.CharField(max_length=100)
+    title_tr = models.CharField(max_length=100, blank=True, null=True)
+    title_en = models.CharField(max_length=100, blank=True, null=True)
 
-    content_tr = MartorField()
-    content_en = MartorField()
+    content_tr = MartorField(blank=True, null=True)
+    content_en = MartorField(blank=True, null=True)
 
     blank_page = models.BooleanField(default=False)
 
