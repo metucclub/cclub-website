@@ -1,4 +1,4 @@
-Django>=2.2.9,<3.0.0
+Django>=3.0.1,<4.0.0
 django-cleanup
 csscompressor
 django-compressor
