@@ -1,8 +1,15 @@
 {% extends '../__base_layout.html' %}
 
+{% load static %}
+{% load i18n %}
+{% load md %}
+
 {% block content %}
+<div class="jumbotron info announcement">
   <div class="announcement">
-    <h2 class="mb-4">{{ announcement.title }}</h2>
+    <h1>{{ announcement.title }}</h1>
+
+    <hr class="my-3">
 
     <div class="jumbotron-content row">
       {% if announcement.image is not None %}
@@ -16,4 +23,5 @@
       </div>
     </div>
   </div>
+</div>
 {% endblock %}
