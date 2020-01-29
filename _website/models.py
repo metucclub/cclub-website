@@ -20,6 +20,7 @@ class Site(models.Model):
     def __str__(self):
         return self.name
 
+
 class MenuItem(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
@@ -29,7 +30,7 @@ class MenuItem(MultilingualModel):
 
     order = models.PositiveIntegerField(default=1)
 
-    redirect_link = models.CharField(max_length=100, default='', blank=True)
+    redirect_link = models.CharField(max_length=1000, default='', blank=True)
 
     class Meta:
         ordering = ['site', 'order']
@@ -37,9 +38,12 @@ class MenuItem(MultilingualModel):
     def __str__(self):
         return '{} - {} - {}'.format(self.site.name, self.order, self.name)
 
+
 class FlatPage(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
     name = models.CharField(max_length=20)
+
+    redirect_link = models.CharField(max_length=1000, default='', blank=True)
 
     title_tr = models.CharField(max_length=100)
     title_en = models.CharField(max_length=100)
@@ -56,6 +60,7 @@ class FlatPage(MultilingualModel):
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.name)
+
 
 class CarouselItem(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
@@ -74,6 +79,7 @@ class CarouselItem(MultilingualModel):
     def __str__(self):
         return '{} - {} - {}'.format(self.site.name, self.title, self.pk)
 
+
 class Event(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
@@ -89,9 +95,11 @@ class Event(MultilingualModel):
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.title)
 
+
 class EventImage(models.Model):
     event = models.ForeignKey(Event, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField()
+
 
 class Announcement(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
@@ -110,6 +118,7 @@ class Announcement(MultilingualModel):
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.title)
 
+
 class UsefulLink(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
@@ -122,6 +131,7 @@ class UsefulLink(MultilingualModel):
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.title)
 
+
 class ContestLanguage(models.Model):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
@@ -132,6 +142,7 @@ class ContestLanguage(models.Model):
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.name)
+
 
 class ContestRule(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
@@ -144,6 +155,7 @@ class ContestRule(MultilingualModel):
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.content)
+
 
 class FAQItem(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)

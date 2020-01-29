@@ -20,6 +20,11 @@ def generate_menu_context(request):
 def flatpage_view(request, name):
     flatpage = get_object_or_404(FlatPage, name=name, site__pk=request.site)
 
+    if flatpage.redirect_link != '':
+        response = redirect(flatpage.redirect_link)
+        response.status_code = 302
+        return response
+
     carousel_items = CarouselItem.objects.filter(site__pk=request.site)
 
     return render(request, '__blank.html' if flatpage.blank_page else 'pages/flatpage.html', {
