@@ -1,4 +1,4 @@
-Django
+Django<3
 django-cleanup
 csscompressor
 django-compressor
