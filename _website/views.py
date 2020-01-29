@@ -59,6 +59,15 @@ def announcements_view(request):
     })
 
 
+def announcement_view(request, id):
+    announcement = get_object_or_404(Announcement, site__pk=request.site, pk=id)
+
+    return render(request, 'pages/announcement.html', {
+        **generate_menu_context(request),
+        'announcement': announcement,
+    })
+
+
 def events_view(request):
     events = Event.objects.filter(site__pk=request.site)
 

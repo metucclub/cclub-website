@@ -1,0 +1,19 @@
+{% extends '../__base_layout.html' %}
+
+{% block content %}
+  <div class="announcement">
+    <h2 class="mb-4">{{ announcement.title }}</h2>
+
+    <div class="jumbotron-content row">
+      {% if announcement.image is not None %}
+        <div class="col col-12 col-lg-6">
+          <img class="mr-4" src="{{ announcement.image.url }}">
+        </div>
+      {% endif %}
+
+      <div class="col col-12 {% if announcement.image is not None %}col-lg-6{% endif %}">
+        {{ announcement.content|md|safe }}
+      </div>
+    </div>
+  </div>
+{% endblock %}
