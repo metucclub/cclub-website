@@ -1,6 +1,22 @@
 from django.shortcuts import get_object_or_404
+from django.utils import translation
 
 from .models import Site
+
+class LocaleMiddleware(object):
+    def __init__(self, get_response):
+        self.get_response = get_response
+
+    def __call__(self, request):
+        if translation.LANGUAGE_SESSION_KEY in request.session:
+            lang = request.session[translation.LANGUAGE_SESSION_KEY]
+        else:
+            lang = translation.get_language()
+
+        translation.activate(lang)
+        request.LANGUAGE_CODE = lang
+
+        return self.get_response(request)
 
 class HostMiddleware(object):
     def __init__(self, get_response):

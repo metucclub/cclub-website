@@ -116,7 +116,6 @@ def faq_view(request):
 def toggle_lang(request):
     lang = 'tr' if translation.get_language() == 'en' else 'en'
 
-    translation.activate(lang)
     request.session[translation.LANGUAGE_SESSION_KEY] = lang
 
     return redirect(request.GET.get('next', '/'))
