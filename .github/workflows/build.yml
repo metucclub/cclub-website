@@ -23,6 +23,8 @@ jobs:
         with:
           push: true
           tags: metucclub/website:latest
+          cache-from: type=registry,ref=metucclub/website:latest
+          cache-to: type=inline
 
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
