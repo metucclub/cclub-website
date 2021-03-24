@@ -22,8 +22,8 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          tags: metucclub/website:latest
-          cache-from: type=registry,ref=metucclub/website:latest
+          tags: metucclub/cclub-website:latest
+          cache-from: type=registry,ref=metucclub/cclub-website:latest
           cache-to: type=inline
 
       - name: Image digest
