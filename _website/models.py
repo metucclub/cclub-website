@@ -147,11 +147,13 @@ class ContestLanguage(models.Model):
 class ContestRule(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
+    order = models.PositiveIntegerField(default=0)
+
     content_tr = models.TextField()
     content_en = models.TextField()
 
     class Meta:
-        ordering = ['site', '-pk']
+        ordering = ['site', 'order', '-pk']
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.content)
@@ -160,6 +162,8 @@ class ContestRule(MultilingualModel):
 class FAQItem(MultilingualModel):
     site = models.ForeignKey(Site, on_delete=models.CASCADE)
 
+    order = models.PositiveIntegerField(default=0)
+
     content_tr = models.TextField()
     content_en = models.TextField()
 
@@ -167,7 +171,7 @@ class FAQItem(MultilingualModel):
     answer_en = models.TextField()
 
     class Meta:
-        ordering = ['site', '-pk']
+        ordering = ['site', 'order', '-pk']
 
     def __str__(self):
         return '{} - {}'.format(self.site.name, self.content)
