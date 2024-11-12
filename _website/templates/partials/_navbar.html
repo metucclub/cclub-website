@@ -21,11 +21,11 @@
         </li>
 
         {% for menu_item in menu_items %}
-          <li class="nav-item {% if request.trimmed_path == menu_item.name %} active {% endif %}">
+          <li class="nav-item {% if request.trimmed_path == menu_item.name|urlencode %} active {% endif %}">
             {% if menu_item.redirect_link %}
-              <a class="nav-link" href="{{ menu_item.redirect_link }}">{{ menu_item.title }}</a>
+              <a class="nav-link" href="{% if menu_item.redirect_link|slice:':1' == '/' %}{{ menu_item.redirect_link }}{% else %}{% url 'home' %}{% endif %}">{{ menu_item.title|escape }}</a>
             {% else %}
-              <a class="nav-link" href="/{{ menu_item.name }}">{{ menu_item.title }}</a>
+              <a class="nav-link" href="/{{ menu_item.name|urlencode }}">{{ menu_item.title|escape }}</a>
             {% endif %}
           </li>
         {% endfor %}
