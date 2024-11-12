@@ -31,7 +31,7 @@
         {% endfor %}
 
         <li class="nav-item">
-          <a class="change-lang-link nav-link" href="{% url 'toggle_lang' %}?next={{ request.get_full_path }}">
+          <a class="change-lang-link nav-link" href="{% url 'toggle_lang' %}{% if request.path|slice:':1' == '/' %}?next={{ request.path }}{% endif %}">
             {% if LANGUAGE_CODE == 'tr' %}
               <span class="active">TR</span> | <span>EN</span>
             {% else %}
