@@ -4,28 +4,33 @@
 
 <div class="jumbotron info events">
   <h1 class="events-title">{% trans 'events' %}</h1>
-
   <hr class="my-3">
 
   {% for event in events.all %}
     <div class="event">
-      <h2 class="mb-4">{{ event.title }}</h2>
+      <span class="event-badge"><i class="fa fa-calendar"></i> Etkinlik</span>
+      <h2 class="mb-3">{{ event.title }}</h2>
 
       {% if event.main_image %}
-      <img class="mr-4" src="{{ main_event.image.url }}">
+        <img class="mr-4 mb-3" src="{{ event.main_image.url }}" alt="{{ event.title }}"
+             style="float:left; max-width:42%; border-radius:10px;">
       {% endif %}
 
       <div>{{ event.content|md|safe }}</div>
 
-      <div class="event-images row wrap justify-content-center align-items-center">
-        {% for event_image in event.images.all %}
-          <div class="col-md-6 col-12 p-3">
-            <img src="{{ event_image.image.url }}">
-          </div>
-        {% endfor %}
-      </div>
+      {% if event.images.all %}
+        <div class="event-images row mt-3" style="clear:both;">
+          {% for image in event.images.all %}
+            <div class="col-6 col-md-3 mb-2">
+              <img src="{{ image.url }}" alt="" style="border-radius:8px;">
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      <div style="clear:both;"></div>
     </div>
 
-    <hr class="my-4">
+    {% if not forloop.last %}<hr class="my-3">{% endif %}
   {% endfor %}
 </div>
