@@ -6,59 +6,89 @@
 <nav class="navbar navbar-expand-lg">
   <div class="d-flex">
 
-    <!-- Logo: logosmall.png, dark modda CSS ile beyaza döner -->
+    <!-- Logo -->
     <a class="navbar-brand" href="{% url 'home' %}">
       <img src="{% static 'img/logosmall.png' %}" alt="CClub" width="28" height="28">
       <span>CClub</span>
     </a>
 
-    <!-- Hamburger — her zaman görünür, collapse'ı tetikler -->
+    <!-- Hamburger (mobil) -->
     <button class="navbar-toggler" type="button"
-      data-toggle="collapse" data-target="#navbarContent"
-      aria-controls="navbarContent" aria-expanded="false" aria-label="Menü">
+            data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Menüyü aç">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <!-- Collapse içeriği -->
-    <div class="collapse navbar-collapse" id="navbarContent">
-      <ul class="navbar-nav mx-auto">
-
+    <!-- Nav linkleri -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'home' %}">Ana Sayfa</a>
+          <a class="nav-link" href="{% url 'home' %}">{% trans 'home' %}</a>
         </li>
-
-        {% for menu_item in menu_items %}
-          <li class="nav-item {% if request.trimmed_path == menu_item.name|urlencode %}active{% endif %}">
-            {% if menu_item.redirect_link %}
-              <a class="nav-link" href="{% if menu_item.redirect_link|slice:':1' == '/' %}{{ menu_item.redirect_link }}{% else %}{% url 'home' %}{% endif %}">
-                {{ menu_item.title|escape }}
-              </a>
-            {% else %}
-              <a class="nav-link" href="/{{ menu_item.name|urlencode }}">
-                {{ menu_item.title|escape }}
-              </a>
-            {% endif %}
-          </li>
-        {% endfor %}
-
+        <li class="nav-item {% if request.resolver_match.url_name == 'events' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'events' %}">{% trans 'events' %}</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'announcements' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'announcements' %}">{% trans 'announcements' %}</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'useful_links' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'useful_links' %}">{% trans 'useful_links' %}</a>
+        </li>
+        <li class="nav-item {% if request.resolver_match.url_name == 'faq' %}active{% endif %}">
+          <a class="nav-link" href="{% url 'faq' %}">{% trans 'faq' %}</a>
+        </li>
       </ul>
+    </div>
 
-      <!-- Tema + Dil — collapse içinde, mobilde de görünür -->
-      <div class="navbar-right">
-        <button id="theme-toggle" onclick="toggleTheme()">
-          <i class="fa fa-moon-o"></i> Karanlık
-        </button>
-        <li class="change-lang-link">
-          <a class="nav-link" href="{% url 'toggle_lang' %}{% if request.path|slice:':1' == '/' %}?next={{ request.path }}{% endif %}">
-            {% if LANGUAGE_CODE == 'tr' %}
-              <span class="active">TR</span>&nbsp;|&nbsp;<span>EN</span>
-            {% else %}
-              <span>TR</span>&nbsp;|&nbsp;<span class="active">EN</span>
-            {% endif %}
+    <!-- Sağ: tema toggle + dil -->
+    <div class="navbar-right">
+      <!-- Tema toggle -->
+      <button id="theme-toggle" type="button" aria-label="Tema değiştir">
+        <span class="theme-icon">🌙</span>
+        <span class="theme-label">Dark</span>
+      </button>
+
+      <!-- Dil seçici -->
+      <ul class="change-lang-link">
+        <li>
+          <a class="nav-link" href="{% url 'set_language' %}?lang=tr&next={{ request.path }}">
+            <span class="{% if LANGUAGE_CODE == 'tr' %}active{% endif %}">TR</span>
+            <span class="text-muted"> / </span>
+            <span class="{% if LANGUAGE_CODE == 'en' %}active{% endif %}">EN</span>
           </a>
         </li>
-      </div>
-
+      </ul>
     </div>
+
   </div>
 </nav>
+
+<script>
+(function () {
+  var btn    = document.getElementById('theme-toggle');
+  var icon   = btn.querySelector('.theme-icon');
+  var label  = btn.querySelector('.theme-label');
+  var root   = document.documentElement;
+
+  function apply(t) {
+    root.setAttribute('data-theme', t);
+    try { localStorage.setItem('cclub-theme', t); } catch(e) {}
+    if (t === 'dark') { icon.textContent = '☀️'; label.textContent = 'Light'; }
+    else              { icon.textContent = '🌙'; label.textContent = 'Dark';  }
+  }
+
+  // Sayfa yüklenince mevcut temayı uygula
+  apply(root.getAttribute('data-theme') || 'light');
+
+  btn.addEventListener('click', function () {
+    apply(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+  });
+
+  // Scroll → navbar gölgesi
+  window.addEventListener('scroll', function () {
+    var nav = document.querySelector('.navbar');
+    if (!nav) return;
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+})();
+</script>
