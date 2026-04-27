@@ -8,13 +8,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ODTÜ Bilgisayar Topluluğu — 1989'dan bu yana teknoloji ve bilgisayar bilimleri alanında öğrencileri bir araya getiriyoruz.">
+  <meta name="description" content="ODTÜ Bilgisayar Topluluğu — Türkiye'nin en köklü bilgisayar kulübü.">
   <title>{{ site.display_name }}</title>
 
   <link rel="icon" href="{% static 'img/favicon.png' %}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -23,16 +23,16 @@
     <link rel="stylesheet" href="{% static 'styles/style.css' %}">
   {% endcompress %}
 
-  {% if site.custom_css %}
-    {{ site.custom_css|safe }}
-  {% endif %}
+  {% if site.custom_css %}{{ site.custom_css|safe }}{% endif %}
 
-  <!-- Tema flash'ını önle: CSS yüklenmeden önce tema ata -->
   <script>
-    try {
-      var t = localStorage.getItem('cclub-theme') || 'light';
-      document.documentElement.setAttribute('data-theme', t);
-    } catch(e) {}
+    /* Tema flash önleme — inline, head'de */
+    (function(){
+      try {
+        var t = localStorage.getItem('cclub-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', t);
+      } catch(e){}
+    })();
   </script>
 </head>
 
@@ -42,7 +42,7 @@
 
     {% block carousel %}{% endblock %}
 
-    <div class="container" style="padding-top: 4px; padding-bottom: 48px;">
+    <div class="container" style="padding-top:4px; padding-bottom:48px;">
       {% block content %}{% endblock %}
     </div>
 
@@ -50,7 +50,9 @@
       <div class="sponsors">
         <p class="sponsors-label">Destekçilerimiz</p>
         <div class="container">
-          {{ sponsors.content|md|safe }}
+          <div class="sponsor-grid">
+            {{ sponsors.content|md|safe }}
+          </div>
         </div>
       </div>
     {% endif %}
@@ -58,20 +60,15 @@
     <footer class="footer">
       <div class="container">
         <div class="footer-inner">
-          <img src="{% static 'img/logosmall.png' %}"
-               alt="CClub"
-               width="14" height="14"
-               style="opacity:0.45; transition: filter 0.3s ease;"
-               id="footer-logo">
+          <svg width="13" height="13" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="28" height="28" rx="6" fill="var(--accent)"/>
+            <text x="2" y="20" font-family="Inter,sans-serif" font-weight="800" font-size="16" fill="#fff">CC</text>
+          </svg>
           <span>{% trans 'metu_computer_club' %} &copy; {% now "Y" %}</span>
           <span class="footer-dot"></span>
-          <a href="https://www.instagram.com/metucclub/" target="_blank" rel="noopener">
-            <i class="fa fa-instagram"></i> Instagram
-          </a>
+          <a href="https://www.instagram.com/metucclub/" target="_blank" rel="noopener"><i class="fa fa-instagram"></i> Instagram</a>
           <span class="footer-dot"></span>
-          <a href="https://github.com/metucclub" target="_blank" rel="noopener">
-            <i class="fa fa-github"></i> GitHub
-          </a>
+          <a href="https://github.com/metucclub" target="_blank" rel="noopener"><i class="fa fa-github"></i> GitHub</a>
         </div>
       </div>
     </footer>
@@ -81,151 +78,242 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
 
     <script>
-      /* ── Theme ── */
-      function toggleTheme() {
-        var html = document.documentElement;
-        var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-        html.setAttribute('data-theme', next);
-        try { localStorage.setItem('cclub-theme', next); } catch(e) {}
-        _updateThemeBtn(next);
-        _updateFooterLogo(next);
+    /* ── Theme ── */
+    function toggleTheme() {
+      var html = document.documentElement;
+      var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      try { localStorage.setItem('cclub-theme', next); } catch(e){}
+      _updateThemeBtn(next);
+    }
+    function _updateThemeBtn(t) {
+      var btn = document.getElementById('theme-toggle');
+      if (!btn) return;
+      btn.innerHTML = t === 'dark'
+        ? '<i class="fa fa-sun-o"></i> Aydınlık'
+        : '<i class="fa fa-moon-o"></i> Karanlık';
+    }
+
+    /* ── Navbar scroll ── */
+    window.addEventListener('scroll', function(){
+      var nav = document.querySelector('.navbar');
+      if (nav) nav.classList.toggle('scrolled', window.scrollY > 8);
+    }, { passive: true });
+
+    /* ── Slider ── */
+    function initSlider(id) {
+      var wrap = document.getElementById(id);
+      if (!wrap) return;
+      var slides  = Array.from(wrap.querySelectorAll('.announcement-slide'));
+      var dots    = Array.from(wrap.querySelectorAll('.slider-dot'));
+      var counter = wrap.querySelector('.slider-counter');
+      var n = slides.length;
+      if (n === 0) return;
+      var cur = 0, timer = null;
+
+      function go(i) {
+        slides[cur].classList.remove('active');
+        if (dots[cur]) dots[cur].classList.remove('active');
+        cur = ((i % n) + n) % n;
+        slides[cur].classList.add('active');
+        if (dots[cur]) dots[cur].classList.add('active');
+        if (counter) counter.textContent = (cur + 1) + ' / ' + n;
       }
 
-      function _updateThemeBtn(theme) {
-        var btn = document.getElementById('theme-toggle');
-        if (!btn) return;
-        btn.innerHTML = theme === 'dark'
-          ? '<i class="fa fa-sun-o"></i> Aydınlık'
-          : '<i class="fa fa-moon-o"></i> Karanlık';
+      function startAuto() {
+        if (timer) clearInterval(timer);
+        timer = n > 1 ? setInterval(function(){ go(cur + 1); }, 6000) : null;
       }
 
-      function _updateFooterLogo(theme) {
-        var fl = document.getElementById('footer-logo');
-        if (!fl) return;
-        fl.style.filter = theme === 'dark' ? 'invert(1) brightness(2) opacity(0.45)' : 'opacity(0.45)';
-      }
-
-      /* ── Navbar scroll shadow ── */
-      window.addEventListener('scroll', function() {
-        var nav = document.querySelector('.navbar');
-        if (nav) nav.classList.toggle('scrolled', window.scrollY > 8);
-      }, { passive: true });
-
-      /* ── Announcement Slider ── */
-      function initSlider(sliderId) {
-        var wrap = document.getElementById(sliderId);
-        if (!wrap) return;
-
-        var slides  = Array.from(wrap.querySelectorAll('.announcement-slide'));
-        var dots    = Array.from(wrap.querySelectorAll('.slider-dot'));
-        var counter = wrap.querySelector('.slider-counter');
-        var total   = slides.length;
-        var cur     = 0;
-        var timer   = null;
-
-        if (total === 0) return;
-
-        function show(n) {
-          slides[cur].classList.remove('active');
-          if (dots[cur]) dots[cur].classList.remove('active');
-          cur = ((n % total) + total) % total;
-          slides[cur].classList.add('active');
-          if (dots[cur]) dots[cur].classList.add('active');
-          if (counter) counter.textContent = (cur + 1) + ' / ' + total;
-        }
-
-        function startAuto() {
-          stopAuto();
-          if (total > 1) timer = setInterval(function() { show(cur + 1); }, 6000);
-        }
-
-        function stopAuto() {
-          if (timer) { clearInterval(timer); timer = null; }
-        }
-
-        var prev = wrap.querySelector('.slider-prev');
-        var next = wrap.querySelector('.slider-next');
-        if (prev) prev.addEventListener('click', function() { stopAuto(); show(cur - 1); startAuto(); });
-        if (next) next.addEventListener('click', function() { stopAuto(); show(cur + 1); startAuto(); });
-        dots.forEach(function(d, i) {
-          d.addEventListener('click', function() { stopAuto(); show(i); startAuto(); });
-        });
-
-        show(0);
-        startAuto();
-      }
-
-      /* ── Tabs ── */
-      function initTabs() {
-        document.querySelectorAll('.cclub-tabs-wrapper').forEach(function(wrapper) {
-          var btns     = Array.from(wrapper.querySelectorAll(':scope > .cclub-tabs > .cclub-tab-btn'));
-          var contents = Array.from(wrapper.querySelectorAll(':scope > .cclub-tab-content'));
-
-          btns.forEach(function(btn, i) {
-            btn.addEventListener('click', function() {
-              btns.forEach(function(b) { b.classList.remove('active'); });
-              contents.forEach(function(c) { c.classList.remove('active'); });
-              btn.classList.add('active');
-              if (contents[i]) contents[i].classList.add('active');
-            });
-          });
-
-          if (btns[0]) btns[0].click();
-        });
-      }
-
-      /* ── CS Quiz ── */
-      var csQ = [
-        { q: "Big-O notasyonunda O(n log n) olan karşılaştırmalı sıralama algoritmaları hangileridir?", a: "Merge Sort ve Heap Sort O(n log n) karmaşıklığına sahiptir. Karşılaştırmaya dayalı sıralama için bu teorik alt sınırdır." },
-        { q: "TCP ile UDP arasındaki temel fark nedir?", a: "TCP bağlantı tabanlı, güvenilir ve sıralı veri iletimi sağlar. UDP bağlantısız ve hızlıdır; gecikme hassas uygulamalarda tercih edilir." },
-        { q: "Dengesiz bir Binary Search Tree'de arama karmaşıklığı nedir?", a: "En kötü durumda O(n)'dir. AVL veya Red-Black Tree gibi dengeli yapılarda O(log n) garantilenir." },
-        { q: "Deadlock oluşması için gereken dört koşul nelerdir?", a: "Coffman koşulları: (1) Mutual Exclusion, (2) Hold and Wait, (3) No Preemption, (4) Circular Wait." },
-        { q: "Stack ve Heap bellek bölgeleri arasındaki fark nedir?", a: "Stack; LIFO yapısında otomatik yönetilir. Heap; dinamik bellek tahsisi için kullanılır ve manuel yönetim gerektirir." },
-        { q: "Turing-complete bir sistem ne anlama gelir?", a: "Yeterli bellek verildiğinde herhangi bir hesaplanabilir fonksiyonu simüle edebilen sistem veya dildir." },
-        { q: "Hash tablosunda collision nedir ve nasıl çözülür?", a: "İki farklı anahtar aynı hash değerine düştüğünde çakışma oluşur. Chaining veya Open Addressing ile çözülür." },
-        { q: "Von Neumann darboğazı nedir?", a: "CPU ile bellek arasındaki veri yolunun bant genişliği sınırlı olduğundan işlemci çoğu zaman belleği bekler." },
-        { q: "P ve NP problem sınıfları arasındaki fark nedir?", a: "P: polinomsal sürede çözülebilen problemler. NP: çözümü polinomsal sürede doğrulanabilen problemler." },
-        { q: "Recursion ve iteration ne zaman tercih edilmeli?", a: "Recursion özyinelemeli yapılarda okunabilirdir. Stack overflow riski veya performans kritikse iteration tercih edilir." }
-      ];
-
-      var curQ = -1;
-
-      function loadQuiz() {
-        var idx;
-        do { idx = Math.floor(Math.random() * csQ.length); } while (idx === curQ && csQ.length > 1);
-        curQ = idx;
-        var qEl = document.getElementById('quiz-question');
-        var aEl = document.getElementById('quiz-answer');
-        var btn = document.getElementById('quiz-toggle');
-        if (!qEl) return;
-        qEl.textContent = csQ[idx].q;
-        aEl.textContent = csQ[idx].a;
-        aEl.classList.remove('visible');
-        if (btn) btn.textContent = 'Cevabı Göster';
-      }
-
-      function toggleQuizAnswer() {
-        var aEl = document.getElementById('quiz-answer');
-        var btn = document.getElementById('quiz-toggle');
-        if (!aEl) return;
-        aEl.classList.toggle('visible');
-        if (btn) btn.textContent = aEl.classList.contains('visible') ? 'Cevabı Gizle' : 'Cevabı Göster';
-      }
-
-      /* ── Init ── */
-      document.addEventListener('DOMContentLoaded', function() {
-        var saved = localStorage.getItem('cclub-theme') || 'light';
-        _updateThemeBtn(saved);
-        _updateFooterLogo(saved);
-        initSlider('announcement-slider');
-        initTabs();
-        loadQuiz();
+      var prev = wrap.querySelector('.slider-prev');
+      var next = wrap.querySelector('.slider-next');
+      if (prev) prev.addEventListener('click', function(e){ e.preventDefault(); go(cur - 1); startAuto(); });
+      if (next) next.addEventListener('click', function(e){ e.preventDefault(); go(cur + 1); startAuto(); });
+      dots.forEach(function(d, i){
+        d.addEventListener('click', function(e){ e.preventDefault(); go(i); startAuto(); });
       });
+
+      go(0);
+      startAuto();
+    }
+
+    /* ── Tabs ── */
+    function initTabs() {
+      document.querySelectorAll('.cclub-tabs-wrapper').forEach(function(w){
+        var btns = Array.from(w.querySelectorAll('.cclub-tab-btn'));
+        var panes = Array.from(w.querySelectorAll('.cclub-tab-content'));
+        btns.forEach(function(btn, i){
+          btn.addEventListener('click', function(){
+            btns.forEach(function(b){ b.classList.remove('active'); });
+            panes.forEach(function(p){ p.classList.remove('active'); });
+            btn.classList.add('active');
+            if (panes[i]) panes[i].classList.add('active');
+          });
+        });
+        if (btns[0]) btns[0].click();
+      });
+    }
+
+    /* ── Quiz (şıklı) ── */
+    var csQ = [
+      {
+        q: "Merge Sort algoritmasının zaman karmaşıklığı nedir?",
+        opts: ["O(n²)", "O(n log n)", "O(log n)", "O(n)"],
+        ans: 1,
+        exp: "Merge Sort, diziyi ikiye bölerek özyinelemeli sıralar ve birleştirir. Her seviyede O(n) iş yapılır, log n seviye vardır → toplam O(n log n)."
+      },
+      {
+        q: "TCP ve UDP arasındaki temel fark nedir?",
+        opts: [
+          "TCP daha hızlıdır",
+          "UDP bağlantı kurar, TCP kurmaz",
+          "TCP güvenilir ve sıralı iletim sağlar; UDP sağlamaz",
+          "İkisi arasında fark yoktur"
+        ],
+        ans: 2,
+        exp: "TCP üç yönlü el sıkışma ile bağlantı kurar, paket kaybını yeniden iletir ve sırayı garanti eder. UDP bunları yapmaz; bu yüzden daha hızlı ama güvensizdir."
+      },
+      {
+        q: "Deadlock oluşması için kaç Coffman koşulunun aynı anda sağlanması gerekir?",
+        opts: ["2", "3", "4", "5"],
+        ans: 2,
+        exp: "Dört koşul: (1) Mutual Exclusion, (2) Hold and Wait, (3) No Preemption, (4) Circular Wait. Tümü aynı anda sağlanırsa deadlock oluşur."
+      },
+      {
+        q: "Dengeli bir Binary Search Tree'de arama karmaşıklığı nedir?",
+        opts: ["O(1)", "O(n)", "O(log n)", "O(n log n)"],
+        ans: 2,
+        exp: "AVL veya Red-Black Tree gibi dengeli yapılarda ağaç yüksekliği O(log n) olduğundan arama da O(log n)'dir. Dengesiz BST'de bu O(n)'e düşebilir."
+      },
+      {
+        q: "Stack bellek bölgesi nasıl yönetilir?",
+        opts: [
+          "Programcı manuel olarak yönetir",
+          "LIFO yapısında otomatik yönetilir",
+          "Garbage collector yönetir",
+          "İşletim sistemi her zaman temizler"
+        ],
+        ans: 1,
+        exp: "Stack; fonksiyon çağrıları ve yerel değişkenler için LIFO (Last In First Out) yapısında otomatik yönetilir. Heap ise dinamik tahsis için kullanılır ve manuel yönetim gerektirir."
+      },
+      {
+        q: "Von Neumann darboğazı neyi ifade eder?",
+        opts: [
+          "CPU'nun çok fazla ısınmasını",
+          "RAM kapasitesinin yetersizliğini",
+          "CPU ile bellek arasındaki veri yolunun bant genişliği kısıtını",
+          "Çok çekirdekli işlemcilerin senkronizasyon sorununu"
+        ],
+        ans: 2,
+        exp: "Von Neumann mimarisinde program ve veri aynı bellekte saklanır. CPU ile bellek arasındaki tek veri yolu darboğaz oluşturur; işlemci çoğu zaman belleği bekler."
+      },
+      {
+        q: "P = NP sorusunda 'NP' ne anlama gelir?",
+        opts: [
+          "Non-Polynomial (Polinomsal olmayan)",
+          "Nondeterministic Polynomial time (Çözümü polinomsal sürede doğrulanabilen)",
+          "Negative Polynomial (Negatif polinom)",
+          "Network Protocol"
+        ],
+        ans: 1,
+        exp: "NP: çözümü polinomsal sürede doğrulanabilen problemler sınıfıdır. P ise polinomsal sürede çözülebilen problemlerdir. P=NP olursa kriptografi başta pek çok alan kökten değişir; henüz kanıtlanmamıştır."
+      },
+      {
+        q: "Hash tablosunda 'collision' (çakışma) nedir?",
+        opts: [
+          "Hash fonksiyonunun çökmesi",
+          "İki farklı anahtarın aynı hash değerine düşmesi",
+          "Tablonun dolması",
+          "Anahtarın silinmesi"
+        ],
+        ans: 1,
+        exp: "İki farklı anahtar aynı indekse hash'lendiğinde çakışma oluşur. Chaining (zincirleme) veya Open Addressing (doğrusal/karesel sondaj) ile çözülür."
+      },
+      {
+        q: "Aşağıdakilerden hangisi bir işletim sistemi zamanlama algoritması değildir?",
+        opts: ["Round Robin", "FIFO / FCFS", "Dijkstra", "Shortest Job First"],
+        ans: 2,
+        exp: "Dijkstra, en kısa yol bulan bir graf algoritmasıdır. Round Robin, FCFS ve SJF ise CPU zamanlama algoritmalarıdır."
+      },
+      {
+        q: "Recursion kullanırken dikkat edilmesi gereken en kritik nokta nedir?",
+        opts: [
+          "Her zaman iteration'dan yavaş olması",
+          "Sadece sayısal problemlerde çalışması",
+          "Base case (taban durum) tanımlanmazsa sonsuz döngüye girmesi",
+          "Yalnızca tek bir dilde desteklenmesi"
+        ],
+        ans: 2,
+        exp: "Recursion'da base case tanımlanmazsa veya yanlış tanımlanırsa fonksiyon kendini sonsuz çağırır ve stack overflow oluşur. Her özyinelemeli çağrının taban duruma yaklaşması gerekir."
+      },
+      {
+        q: "OSI modelinde 'Transport Layer' (Taşıma Katmanı) kaçıncı katmandır?",
+        opts: ["3. katman", "4. katman", "5. katman", "6. katman"],
+        ans: 1,
+        exp: "OSI modelinde Transport Layer 4. katmandır. TCP ve UDP bu katmanda çalışır. Altında Network (3), üstünde Session (5) katmanı bulunur."
+      },
+      {
+        q: "Git'te 'git rebase' ile 'git merge' arasındaki temel fark nedir?",
+        opts: [
+          "Rebase dosyaları siler, merge ekler",
+          "Merge daha hızlıdır",
+          "Rebase commit geçmişini doğrusal hale getirir; merge birleştirme commit'i oluşturur",
+          "İkisi tamamen aynı işi yapar"
+        ],
+        ans: 2,
+        exp: "git merge, iki dalı birleştirme commit'i ile birleştirir ve geçmişi korur. git rebase ise commit'leri hedef dalın üstüne yeniden uygular, geçmişi doğrusal ve temiz tutar."
+      }
+    ];
+
+    var curQIdx = -1;
+
+    function loadQuiz() {
+      var idx;
+      do { idx = Math.floor(Math.random() * csQ.length); } while (idx === curQIdx && csQ.length > 1);
+      curQIdx = idx;
+      var item = csQ[idx];
+
+      var qEl   = document.getElementById('quiz-question');
+      var optsEl = document.getElementById('quiz-options');
+      var fbEl  = document.getElementById('quiz-feedback');
+      if (!qEl) return;
+
+      qEl.textContent = item.q;
+      fbEl.textContent = '';
+      fbEl.classList.remove('visible');
+      optsEl.innerHTML = '';
+
+      item.opts.forEach(function(opt, i) {
+        var btn = document.createElement('button');
+        btn.className = 'quiz-option';
+        btn.textContent = opt;
+        btn.addEventListener('click', function() {
+          /* Disable all */
+          Array.from(optsEl.querySelectorAll('.quiz-option')).forEach(function(b){ b.disabled = true; });
+          if (i === item.ans) {
+            btn.classList.add('correct');
+          } else {
+            btn.classList.add('wrong');
+            optsEl.querySelectorAll('.quiz-option')[item.ans].classList.add('correct');
+          }
+          fbEl.textContent = item.exp;
+          fbEl.classList.add('visible');
+        });
+        optsEl.appendChild(btn);
+      });
+    }
+
+    /* ── Init ── */
+    document.addEventListener('DOMContentLoaded', function(){
+      var saved = localStorage.getItem('cclub-theme') || 'light';
+      _updateThemeBtn(saved);
+      initSlider('announcement-slider');
+      initTabs();
+      loadQuiz();
+    });
     </script>
 
-    {% if site.custom_js %}
-      {{ site.custom_js|safe }}
-    {% endif %}
+    {% if site.custom_js %}{{ site.custom_js|safe }}{% endif %}
   {% endblock %}
 </body>
 </html>
