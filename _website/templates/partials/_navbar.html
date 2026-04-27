@@ -48,10 +48,10 @@
         <span class="theme-label">Dark</span>
       </button>
 
-      <!-- Dil seçici — Django i18n kullan -->
+      <!-- Dil seçici -->
       <ul class="change-lang-link">
         <li>
-          <a class="nav-link" href="{% url 'django.views.i18n.set_language' %}?language=tr">
+          <a class="nav-link" href="{% url 'set_language' %}?language=tr">
             <span class="{% if LANGUAGE_CODE == 'tr' %}active{% endif %}">TR</span>
             <span class="text-muted"> / </span>
             <span class="{% if LANGUAGE_CODE == 'en' %}active{% endif %}">EN</span>
