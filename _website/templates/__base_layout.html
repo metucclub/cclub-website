@@ -4,14 +4,18 @@
 {% load md %}
 
 <!DOCTYPE html>
-<html>
+<html lang="tr" data-theme="light">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="ODTÜ Bilgisayar Topluluğu — Türkiye'nin en köklü bilgisayar kulübü.">
   <title>{{ site.display_name }}</title>
 
   <link rel="icon" href="{% static 'img/favicon.png' %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -32,15 +36,16 @@
     {% block carousel %}
     {% endblock %}
 
-    <div class="container">
+    <div class="container" style="padding-top: 8px; padding-bottom: 40px;">
       {% block content %}
       {% endblock %}
     </div>
 
     {% if sponsors %}
-      <div class="sponsors d-flex justify-content-center">
-        <div class="sponsors justify-content-center">
-          <div class="container">
+      <div class="sponsors">
+        <p class="sponsors-label">Destekçilerimiz</p>
+        <div class="container">
+          <div class="row justify-content-center align-items-center">
             {{ sponsors.content|md|safe }}
           </div>
         </div>
@@ -49,14 +54,160 @@
 
     <footer class="footer">
       <div class="container">
-        {% trans 'metu_computer_club' %} &copy;
-        {% now "Y" %}
+        <div class="footer-inner">
+          <!-- CClub SVG Logo inline -->
+          <svg width="18" height="18" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" style="opacity:0.6;">
+            <rect width="32" height="32" rx="8" fill="#e63946"/>
+            <text x="5" y="23" font-family="Inter,sans-serif" font-weight="900" font-size="18" fill="#fff">CC</text>
+          </svg>
+          <span>{% trans 'metu_computer_club' %}</span>
+          <span class="footer-dot"></span>
+          <span>&copy; {% now "Y" %}</span>
+          <span class="footer-dot"></span>
+          <a href="https://www.instagram.com/metucclub/" target="_blank" style="color:var(--text-muted);">
+            <i class="fa fa-instagram"></i> @metucclub
+          </a>
+          <span class="footer-dot"></span>
+          <a href="https://github.com/metucclub" target="_blank" style="color:var(--text-muted);">
+            <i class="fa fa-github"></i> GitHub
+          </a>
+        </div>
       </div>
     </footer>
 
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+    <script>
+      /* ── Dark / Light Mode ── */
+      (function() {
+        var saved = localStorage.getItem('cclub-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', saved);
+        updateToggleIcon(saved);
+      })();
+
+      function updateToggleIcon(theme) {
+        var btn = document.getElementById('theme-toggle');
+        if (!btn) return;
+        btn.innerHTML = theme === 'dark'
+          ? '<i class="fa fa-sun-o"></i> Aydınlık'
+          : '<i class="fa fa-moon-o"></i> Karanlık';
+      }
+
+      function toggleTheme() {
+        var html = document.documentElement;
+        var current = html.getAttribute('data-theme');
+        var next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        localStorage.setItem('cclub-theme', next);
+        updateToggleIcon(next);
+      }
+
+      /* ── Navbar scroll shadow ── */
+      window.addEventListener('scroll', function() {
+        var nav = document.querySelector('.navbar');
+        if (!nav) return;
+        nav.classList.toggle('scrolled', window.scrollY > 20);
+      });
+
+      /* ── Announcement Slider ── */
+      function initSlider(containerId) {
+        var container = document.getElementById(containerId);
+        if (!container) return;
+        var slides = container.querySelectorAll('.announcement-slide');
+        var dots   = container.querySelectorAll('.slider-dot');
+        var current = 0;
+
+        function show(n) {
+          slides[current].classList.remove('active');
+          if (dots[current]) dots[current].classList.remove('active');
+          current = (n + slides.length) % slides.length;
+          slides[current].classList.add('active');
+          if (dots[current]) dots[current].classList.add('active');
+        }
+
+        container.querySelector('.slider-prev') &&
+          container.querySelector('.slider-prev').addEventListener('click', function() { show(current - 1); });
+        container.querySelector('.slider-next') &&
+          container.querySelector('.slider-next').addEventListener('click', function() { show(current + 1); });
+
+        dots.forEach(function(d, i) {
+          d.addEventListener('click', function() { show(i); });
+        });
+
+        if (slides.length > 0) slides[0].classList.add('active');
+        if (dots.length > 0) dots[0].classList.add('active');
+
+        /* Auto-advance every 6s */
+        setInterval(function() { show(current + 1); }, 6000);
+      }
+
+      /* ── Tab System ── */
+      function initTabs(wrapperSelector) {
+        var wrappers = document.querySelectorAll(wrapperSelector);
+        wrappers.forEach(function(wrapper) {
+          var btns     = wrapper.querySelectorAll('.cclub-tab-btn');
+          var contents = wrapper.querySelectorAll('.cclub-tab-content');
+          btns.forEach(function(btn, i) {
+            btn.addEventListener('click', function() {
+              btns.forEach(function(b) { b.classList.remove('active'); });
+              contents.forEach(function(c) { c.classList.remove('active'); });
+              btn.classList.add('active');
+              if (contents[i]) contents[i].classList.add('active');
+            });
+          });
+          if (btns[0]) btns[0].classList.add('active');
+          if (contents[0]) contents[0].classList.add('active');
+        });
+      }
+
+      /* ── CS Quiz ── */
+      var csQuestions = [
+        { q: "Big-O notasyonunda O(n log n) olan sıralama algoritması hangisidir?", a: "Merge Sort ve Heap Sort, O(n log n) karmaşıklığına sahiptir. Karşılaştırmaya dayalı sıralama algoritmalarında bu en iyi teorik alt sınırdır." },
+        { q: "TCP ile UDP arasındaki temel fark nedir?", a: "TCP bağlantı tabanlı, güvenilir ve sıralı veri iletimi sağlar. UDP ise bağlantısız, hızlı ama güvensizdir; video akışı ve oyunlarda tercih edilir." },
+        { q: "Bir binary search tree'de en kötü durum arama karmaşıklığı nedir?", a: "Dengesiz (skewed) bir BST'de O(n)'dir. Dengeli BST'lerde (AVL, Red-Black) ise O(log n) garantilenir." },
+        { q: "Deadlock oluşması için gereken dört koşul nelerdir?", a: "Coffman koşulları: (1) Mutual Exclusion, (2) Hold and Wait, (3) No Preemption, (4) Circular Wait. Tümü aynı anda sağlanırsa deadlock oluşur." },
+        { q: "Stack ile Heap bellek alanları arasındaki fark nedir?", a: "Stack; fonksiyon çağrıları ve yerel değişkenler için LIFO yapısında otomatik yönetilir. Heap; dinamik bellek tahsisi için kullanılır ve manuel yönetim (malloc/free) gerektirir." },
+        { q: "Turing-complete bir dil ne anlama gelir?", a: "Herhangi bir hesaplanabilir fonksiyonu simüle edebilen bir dil veya sistemdir. Yeterli bellek verildiğinde Turing makinesiyle eşdeğer hesaplama gücüne sahiptir." },
+        { q: "Hashing'de collision (çakışma) nedir ve nasıl çözülür?", a: "İki farklı anahtar aynı hash değerine düştüğünde çakışma oluşur. Chaining (zincirleme) veya Open Addressing (açık adresleme) yöntemleriyle çözülür." },
+        { q: "Recursion ile iteration arasında ne zaman hangisi tercih edilmeli?", a: "Recursion; ağaç/graf traversal gibi doğası gereği özyinelemeli problemlerde okunabilirdir. Iteration ise bellek kullanımı kritikse (stack overflow riski) tercih edilir." },
+        { q: "Von Neumann mimarisinin temel bileşenleri nelerdir?", a: "CPU (ALU + Control Unit), bellek (RAM), giriş/çıkış birimleri ve veri yolu (bus). Program ve veri aynı bellekte saklanır — bu Von Neumann darboğazına yol açar." },
+        { q: "P vs NP problemi neden önemlidir?", a: "P: polinomsal sürede çözülebilen problemler. NP: çözümü polinomsal sürede doğrulanabilen problemler. P=NP olursa kriptografi dahil pek çok alan kökten değişir. Henüz çözülmemiştir." }
+      ];
+
+      var currentQuizIdx = -1;
+
+      function loadQuiz() {
+        var idx;
+        do { idx = Math.floor(Math.random() * csQuestions.length); }
+        while (idx === currentQuizIdx && csQuestions.length > 1);
+        currentQuizIdx = idx;
+
+        var qEl = document.getElementById('quiz-question');
+        var aEl = document.getElementById('quiz-answer');
+        if (!qEl) return;
+        qEl.textContent = csQuestions[idx].q;
+        aEl.textContent = csQuestions[idx].a;
+        aEl.classList.remove('visible');
+        var toggleBtn = document.getElementById('quiz-toggle');
+        if (toggleBtn) toggleBtn.textContent = 'Cevabı Göster';
+      }
+
+      function toggleQuizAnswer() {
+        var aEl = document.getElementById('quiz-answer');
+        var btn = document.getElementById('quiz-toggle');
+        if (!aEl) return;
+        aEl.classList.toggle('visible');
+        btn.textContent = aEl.classList.contains('visible') ? 'Cevabı Gizle' : 'Cevabı Göster';
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        initSlider('announcement-slider');
+        initTabs('.cclub-tabs-wrapper');
+        loadQuiz();
+      });
+    </script>
 
     {% if site.custom_js %}
       {{ site.custom_js|safe }}
