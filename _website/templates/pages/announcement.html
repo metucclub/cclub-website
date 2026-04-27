@@ -7,21 +7,34 @@
 {% block content %}
 <div class="jumbotron info announcement">
   <div class="announcement">
-    <h1>{{ announcement.title }}</h1>
-
+    <span class="event-badge"><i class="fa fa-bullhorn"></i> Duyuru</span>
+    <h1 style="font-size:1.6rem; margin-top:10px;">{{ announcement.title }}</h1>
     <hr class="my-3">
 
     <div class="jumbotron-content row">
       {% if announcement.image is not None %}
-        <div class="col col-12 col-lg-6">
-          <img class="mr-4" src="{{ announcement.image.url }}">
+        <div class="col-12 col-md-5 mb-4">
+          <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}"
+               style="width:100%; border-radius:12px; box-shadow: var(--shadow-md);">
+        </div>
+        <div class="col-12 col-md-7">
+          <div style="color:var(--text-secondary); line-height:1.8;">
+            {{ announcement.content|md|safe }}
+          </div>
+        </div>
+      {% else %}
+        <div class="col-12">
+          <div style="color:var(--text-secondary); line-height:1.8;">
+            {{ announcement.content|md|safe }}
+          </div>
         </div>
       {% endif %}
-
-      <div class="col col-12 {% if announcement.image is not None %}col-lg-6{% endif %}">
-        {{ announcement.content|md|safe }}
-      </div>
     </div>
+
+    <hr class="my-3">
+    <a href="{% url 'home' %}" style="color:var(--accent); font-weight:600; font-size:0.9rem;">
+      <i class="fa fa-arrow-left"></i> Ana sayfaya dön
+    </a>
   </div>
 </div>
 {% endblock %}

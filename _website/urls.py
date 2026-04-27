@@ -1,6 +1,9 @@
 from django.urls import path
-
+from django.shortcuts import redirect
 from _website.views import *
+
+def arsiv_redirect(request):
+    return redirect('https://arsiv.cclub.metu.edu.tr/')
 
 urlpatterns = [
     path('', home_view, name='home'),
@@ -10,5 +13,6 @@ urlpatterns = [
     path('events/', events_view, name='events'),
     path('useful-links/', useful_links_view, name='useful_links'),
     path('faq/', faq_view, name='faq'),
+    path('arsiv/', arsiv_redirect, name ='arsiv_redirect'), #arsiv redirect
     path('<path:name>/', flatpage_view)
 ]
