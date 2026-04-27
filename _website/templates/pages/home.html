@@ -1,6 +1,7 @@
-{% extends '../__base_layout.html' %}
+{% extends '__base_layout.html' %}
 
 {% load md %}
+{% load i18n %}
 
 {% block carousel %}
   {% if carousel_items %}
@@ -9,15 +10,302 @@
 {% endblock %}
 
 {% block content %}
-  {% if announcements %}
-    {% include '../partials/_announcements.html' %}
-  {% endif %}
 
-  {% if flat_pages %}
-    {% for flat_page in flat_pages %}
-      <div class="jumbotron info">
-        <div class="lead">{{ flat_page.content|md|safe }}</div>
+<!-- ── Duyurular Slideshow ── -->
+{% if announcements %}
+<div class="jumbotron info announcements" id="duyurular">
+  <h1 class="announcements-title">{% trans 'announcements' %}</h1>
+  <hr>
+  <div class="announcement-slider" id="announcement-slider">
+    {% for announcement in announcements %}
+      <div class="announcement-slide">
+        <div class="announcement">
+          <span class="event-badge"><i class="fa fa-bullhorn"></i> Duyuru</span>
+          <h2>{{ announcement.title }}</h2>
+          <div class="jumbotron-content row">
+            {% if announcement.image %}
+              <div class="col-12 col-md-4 mb-3">
+                <img src="{{ announcement.image.url }}" alt="{{ announcement.title }}" style="width:100%;border-radius:10px;">
+              </div>
+              <div class="col-12 col-md-8">
+                <div>{{ announcement.content|md|safe }}</div>
+              </div>
+            {% else %}
+              <div class="col-12">
+                <div>{{ announcement.content|md|safe }}</div>
+              </div>
+            {% endif %}
+          </div>
+        </div>
       </div>
     {% endfor %}
-  {% endif %}
+
+    <div class="slider-controls">
+      <button class="slider-btn slider-prev" aria-label="Önceki">
+        <i class="fa fa-chevron-left"></i>
+      </button>
+      <div class="slider-dots">
+        {% for announcement in announcements %}
+          <button class="slider-dot" aria-label="Slayt {{ forloop.counter }}"></button>
+        {% endfor %}
+      </div>
+      <button class="slider-btn slider-next" aria-label="Sonraki">
+        <i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+<!-- ── Topluluk Tabs ── -->
+<div class="jumbotron cclub-tabs-wrapper" id="etkinlikler">
+  <h1>Topluluk</h1>
+  <hr>
+
+  <div class="cclub-tabs">
+    <button class="cclub-tab-btn"><i class="fa fa-calendar"></i> Etkinlikler</button>
+    <button class="cclub-tab-btn"><i class="fa fa-users"></i> Çalışma Grupları</button>
+    <button class="cclub-tab-btn"><i class="fa fa-wrench"></i> Workshoplar</button>
+    <button class="cclub-tab-btn"><i class="fa fa-microphone"></i> S-Talks</button>
+    <button class="cclub-tab-btn"><i class="fa fa-trophy"></i> Yarışmalar</button>
+  </div>
+
+  <!-- Tab 1: Etkinlikler -->
+  <div class="cclub-tab-content">
+    {% if events %}
+      {% include '../partials/_events.html' %}
+    {% else %}
+      <p style="color:var(--text-muted); padding: 20px 0;">Yakında etkinliklerimiz burada görünecek.</p>
+    {% endif %}
+    <a href="https://www.instagram.com/metucclub/" target="_blank" class="insta-hint">
+      <i class="fa fa-instagram" style="font-size:1.1rem;"></i>
+      Tüm etkinlikler için @metucclub'ı takip et
+    </a>
+  </div>
+
+  <!-- Tab 2: Çalışma Grupları -->
+  <div class="cclub-tab-content" id="calisma-gruplari">
+    <div class="wg-grid">
+      <div class="wg-card">
+        <div class="wg-icon">🤖</div>
+        <h3>Yapay Zeka & ML</h3>
+        <p>Makine öğrenmesi, derin öğrenme ve yapay zeka projeleri üzerine çalışmalar.</p>
+      </div>
+      <div class="wg-card">
+        <div class="wg-icon">🔒</div>
+        <h3>Siber Güvenlik</h3>
+        <p>CTF yarışmaları, penetrasyon testi ve güvenlik araştırmaları.</p>
+      </div>
+      <div class="wg-card">
+        <div class="wg-icon">🎮</div>
+        <h3>Oyun Geliştirme</h3>
+        <p>Unity, Unreal ve bağımsız oyun projeleri geliştirme.</p>
+      </div>
+      <div class="wg-card">
+        <div class="wg-icon">🌐</div>
+        <h3>Web & Mobil</h3>
+        <p>Modern web teknolojileri ve mobil uygulama geliştirme.</p>
+      </div>
+      <div class="wg-card">
+        <div class="wg-icon">⚙️</div>
+        <h3>Bilgisayar Bilimi</h3>
+        <p>Rekabetçi programlama ve algoritma çalışmaları, ICPC hazırlığı.</p>
+      </div>
+      <div class="wg-card">
+        <div class="wg-icon">🐧</div>
+        <h3>Açık Kaynak & Linux</h3>
+        <p>Açık kaynak projelere katkı, Linux sistem yönetimi ve araçları.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 3: Workshoplar -->
+  <div class="cclub-tab-content">
+    <p style="color:var(--text-secondary); margin-bottom:20px; font-size:0.95rem;">
+      Üyelerimiz ve sektör profesyonelleri tarafından düzenlenen uygulamalı atölye çalışmaları.
+    </p>
+    <a href="https://www.instagram.com/metucclub/" target="_blank" class="insta-hint">
+      <i class="fa fa-instagram" style="font-size:1.1rem;"></i>
+      Gelecek workshoplar için takipte kal
+    </a>
+  </div>
+
+  <!-- Tab 4: S-Talks -->
+  <div class="cclub-tab-content">
+    <p style="color:var(--text-secondary); margin-bottom:20px; font-size:0.95rem;">
+      Sektörün önde gelen isimlerini ODTÜ'ye taşıyan konuşma serisi.
+      Geçmiş ve gelecek S-Talks etkinliklerimiz:
+    </p>
+    <div class="wg-grid">
+      <div class="wg-card">
+        <div class="wg-icon">🎯</div>
+        <h3>Dream Games — CTO</h3>
+        <p>Hakan Sağlam, mobil oyun geliştirme süreçlerini anlattı. <span class="tag">Geçti</span></p>
+      </div>
+      <div class="wg-card">
+        <div class="wg-icon">🏔️</div>
+        <h3>Peak Games — Mühendislik</h3>
+        <p>Levent Seçkin, oyun geliştirme ve Peak'in yaklaşımını paylaştı. <span class="tag">Geçti</span></p>
+      </div>
+      <div class="wg-card">
+        <div class="wg-icon">👩‍💻</div>
+        <h3>Women in CS</h3>
+        <p>Bilişim alanında başarılı kadınlarla ilham dolu bir etkinlik. <span class="tag">Geçti</span></p>
+      </div>
+      <div class="wg-card" style="border: 1px dashed var(--accent); opacity:0.7;">
+        <div class="wg-icon">📅</div>
+        <h3>Yakında...</h3>
+        <p>Bir sonraki S-Talk konuşmacısı çok yakında açıklanacak!</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab 5: Yarışmalar -->
+  <div class="cclub-tab-content">
+    <p style="color:var(--text-secondary); margin-bottom:20px; font-size:0.95rem;">
+      KODTÜ ve diğer programlama yarışmalarımız — ICPC formatında, herkes katılabilir.
+    </p>
+    <div class="wg-grid">
+      <div class="wg-card">
+        <div class="wg-icon">🏆</div>
+        <h3>KODTÜ</h3>
+        <p>ICPC formatında online programlama yarışması. 7 problem, Python/C++/Java destekli. ODTÜ öğrencilerine özel ödüller.</p>
+      </div>
+      <div class="wg-card">
+        <div class="wg-icon">💡</div>
+        <h3>Bilişim Günü Hackathon</h3>
+        <p>IT Days kapsamında düzenlenen takım tabanlı geliştirme maratonu.</p>
+      </div>
+      <div class="wg-card" style="border: 1px dashed var(--accent); opacity:0.7;">
+        <div class="wg-icon">🔜</div>
+        <h3>Yakında...</h3>
+        <p>Yeni yarışma duyuruları için takipte kal!</p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ── /Topluluk Tabs ── -->
+
+<!-- ── Yönetim Kurulu ── -->
+<div class="jumbotron" id="yonetim">
+  <h1>Yönetim Kurulu</h1>
+  <hr>
+  <p style="color:var(--text-secondary); margin-bottom:24px; font-size:0.95rem;">
+    2024–2025 dönemi ODTÜ Bilgisayar Topluluğu Yönetim Kurulu
+  </p>
+  <div class="board-grid">
+    <div class="board-card">
+      <div class="board-avatar">B</div>
+      <h3>Mustafa Berke Şimşekler</h3>
+      <span class="role">Başkan</span>
+    </div>
+    <div class="board-card">
+      <div class="board-avatar">MK</div>
+      <h3>Mert Kemal Aydın</h3>
+      <span class="role">Sayman</span>
+    </div>
+    <div class="board-card">
+      <div class="board-avatar">BB</div>
+      <h3>Bekir Berke Gülmez</h3>
+      <span class="role">Teknik</span>
+    </div>
+    <div class="board-card">
+      <div class="board-avatar">MK</div>
+      <h3>Mehmet Kara</h3>
+      <span class="role">Tasarım & Tanıtım</span>
+    </div>
+    <div class="board-card">
+      <div class="board-avatar">ME</div>
+      <h3>Mehmet Efe Yıldız</h3>
+      <span class="role">Teknik</span>
+    </div>
+    <div class="board-card">
+      <div class="board-avatar">AB</div>
+      <h3>Ahmet Berkay Erdoğan</h3>
+      <span class="role">Organizatör</span>
+    </div>
+  </div>
+  <!-- ✅ board-grid kapandı, insta-hint artık jumbotron içinde doğru yerde -->
+  <a href="https://www.instagram.com/metucclub/" target="_blank" class="insta-hint" style="margin-top:24px;">
+    <i class="fa fa-instagram" style="font-size:1.1rem;"></i>
+    Yönetim kurulumuzla tanışmak için Instagram'ı ziyaret et
+  </a>
+</div>
+<!-- ── /Yönetim Kurulu ── -->
+
+<!-- ── CS Soru Kutusu ── -->
+<div class="jumbotron">
+  <h1>Günün Bilgisayar Bilimi Sorusu</h1>
+  <hr>
+  <div class="quiz-box">
+    <p class="quiz-question" id="quiz-question">Yükleniyor...</p>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <button class="quiz-answer-toggle" id="quiz-toggle" onclick="toggleQuizAnswer()">Cevabı Göster</button>
+      <button class="quiz-new-btn" onclick="loadQuiz()">
+        <i class="fa fa-refresh"></i> Yeni Soru
+      </button>
+    </div>
+    <div class="quiz-answer" id="quiz-answer"></div>
+  </div>
+</div>
+
+<!-- ── Hakkımızda ── -->
+<div class="jumbotron">
+  <h1>Hakkımızda</h1>
+  <hr>
+  <div class="row">
+    <div class="col-12 col-md-8">
+      <p style="color:var(--text-secondary); font-size:1rem; line-height:1.8;">
+        <strong style="color:var(--text-primary);">ODTÜ Bilgisayar Topluluğu (CClub)</strong>,
+        Türkiye'nin en köklü ve en aktif bilgisayar kulüplerinden biridir. 1989 yılında kurulmuştur.
+        Bilgisayar bilimi, yazılım geliştirme ve teknoloji alanlarında
+        öğrencileri bir araya getirerek öğrenme, üretme ve paylaşma
+        ortamı yaratıyoruz.
+      </p>
+      <p style="color:var(--text-secondary); font-size:1rem; line-height:1.8; margin-top:8px;">
+        📍 Topluluk Odamız: <strong style="color:var(--text-primary);">CENG B-200, ODTÜ Ankara</strong>
+      </p>
+      <p style="color:var(--text-secondary); font-size:1rem; line-height:1.8; margin-top:14px;">
+        Yıllık <strong style="color:var(--text-primary);">Bilişim Günü</strong> etkinliğimiz,
+        <strong style="color:var(--text-primary);">KODTÜ</strong> programlama yarışmamız,
+        <strong style="color:var(--text-primary);">S-Talks</strong> konuşma serimiz ve
+        çalışma gruplarımızla her dönem yüzlerce öğrenciye ulaşıyoruz.
+      </p>
+      <div style="display:flex; gap:24px; margin-top:24px; flex-wrap:wrap;">
+        <div>
+          <div style="font-size:2rem; font-weight:900; color:var(--accent);">1989</div>
+          <div style="font-size:0.8rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Kuruluş Yılı</div>
+        </div>
+        <div>
+          <div style="font-size:2rem; font-weight:900; color:var(--accent);">500+</div>
+          <div style="font-size:0.8rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Aktif Üye</div>
+        </div>
+        <div>
+          <div style="font-size:2rem; font-weight:900; color:var(--accent);">30+</div>
+          <div style="font-size:0.8rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Yıllık Etkinlik</div>
+        </div>
+        <div>
+          <div style="font-size:2rem; font-weight:900; color:var(--accent);">6</div>
+          <div style="font-size:0.8rem; color:var(--text-muted); font-weight:600; text-transform:uppercase; letter-spacing:0.05em;">Çalışma Grubu</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 col-md-4 mt-4 mt-md-0 d-flex flex-column justify-content-center align-items-center">
+      <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="120" height="120" rx="28" fill="#e63946"/>
+        <text x="12" y="88" font-family="Inter,sans-serif" font-weight="900" font-size="68" fill="#ffffff">CC</text>
+        <rect x="12" y="94" width="96" height="5" rx="2.5" fill="rgba(255,255,255,0.3)"/>
+      </svg>
+      <p style="color:var(--text-muted); font-size:0.8rem; margin-top:12px; text-align:center; font-weight:600; letter-spacing:0.05em; text-transform:uppercase;">
+        ODTÜ Bilgisayar Topluluğu
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ── Useful Links ── -->
+{% if useful_links %}
+  {% include '../partials/_useful_links.html' %}
+{% endif %}
+
 {% endblock %}
