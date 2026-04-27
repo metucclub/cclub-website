@@ -3,32 +3,31 @@
 
 {% get_current_language as LANGUAGE_CODE %}
 
-<nav class="navbar navbar-expand-lg navbar-dark">
+<nav class="navbar navbar-expand-lg">
   <div class="d-flex">
 
+    <!-- Logo: SVG inline, tema ile renk değişir -->
     <a class="navbar-brand" href="{% url 'home' %}">
-      <!-- SVG Logo inline -->
-      <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect width="36" height="36" rx="9" fill="#e63946"/>
-        <text x="4" y="26" font-family="Inter,sans-serif" font-weight="900" font-size="20" fill="#ffffff">CC</text>
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class="logo-rect" width="32" height="32" rx="8" fill="var(--accent)"/>
+        <text class="logo-text" x="3" y="23" font-family="Inter,sans-serif" font-weight="800" font-size="18" fill="#ffffff">CC</text>
       </svg>
-      <span style="font-weight:800; font-size:1rem; color:var(--text-primary);">CClub</span>
+      <span>CClub</span>
     </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Menüyü aç">
       <span class="navbar-toggler-icon"></span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav mx-auto">
-
-        <li class="nav-item {% if request.resolver_match.url_name == 'home' %} active {% endif %}">
+        <li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
           <a class="nav-link" href="{% url 'home' %}">{% trans 'homepage' %}</a>
         </li>
 
         {% for menu_item in menu_items %}
-          <li class="nav-item {% if request.trimmed_path == menu_item.name|urlencode %} active {% endif %}">
+          <li class="nav-item {% if request.trimmed_path == menu_item.name|urlencode %}active{% endif %}">
             {% if menu_item.redirect_link %}
               <a class="nav-link" href="{% if menu_item.redirect_link|slice:':1' == '/' %}{{ menu_item.redirect_link }}{% else %}{% url 'home' %}{% endif %}">{{ menu_item.title|escape }}</a>
             {% else %}
@@ -37,32 +36,27 @@
           </li>
         {% endfor %}
 
-        <!-- Sabit sekmeler -->
-        <li class="nav-item">
-          <a class="nav-link" href="#calisma-gruplari">Çalışma Grupları</a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" href="#etkinlikler">Etkinlikler</a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" href="#calisma-gruplari">Çalışma Grupları</a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" href="#yonetim">Yönetim</a>
         </li>
-
       </ul>
 
-      <div class="d-flex align-items-center" style="gap:10px;">
-        <!-- Dark mode toggle -->
+      <div class="navbar-right">
         <button id="theme-toggle" onclick="toggleTheme()">
           <i class="fa fa-moon-o"></i> Karanlık
         </button>
-
-        <!-- Language toggle -->
-        <li class="nav-item change-lang-link" style="list-style:none;">
+        <li class="change-lang-link" style="list-style:none; margin:0;">
           <a class="nav-link" href="{% url 'toggle_lang' %}{% if request.path|slice:':1' == '/' %}?next={{ request.path }}{% endif %}">
             {% if LANGUAGE_CODE == 'tr' %}
-              <span class="active">TR</span> <span style="color:var(--border);">|</span> <span>EN</span>
+              <span class="active">TR</span>&nbsp;|&nbsp;<span>EN</span>
             {% else %}
-              <span>TR</span> <span style="color:var(--border);">|</span> <span class="active">EN</span>
+              <span>TR</span>&nbsp;|&nbsp;<span class="active">EN</span>
             {% endif %}
           </a>
         </li>
