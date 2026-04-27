@@ -4,48 +4,78 @@
 {% load i18n %}
 
 {% block content %}
-  <div class="jumbotron info">
-    {% if contest_rules %}
-      <div class="contest-rules">
-        <h1 class="contest-rules-title">{% trans 'contest_rules' %}</h1>
+<div class="jumbotron info">
 
-        <hr class="my-3">
+  {% if contest_rules %}
+    <div class="contest-rules">
+      <h1 class="contest-rules-title">{% trans 'contest_rules' %}</h1>
+      <hr class="my-3">
+      <ul>
+        {% for contest_rule in contest_rules %}
+          <li style="margin-bottom:10px; color:var(--text-secondary);">
+            {{ contest_rule.content|md|safe }}
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 
-        <ul>
-          {% for contest_rule in contest_rules %}
-            <li>{{ contest_rule.content|md|safe }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
+  {% if contest_languages %}
+    <div class="supported-languages mt-4">
+      <h1 class="supported-languages-title">{% trans 'supported_languages' %}</h1>
+      <hr class="my-3">
+      <ul class="row" style="list-style:none; padding:0;">
+        {% for language in contest_languages %}
+          <li class="col-6 col-lg-3 mb-2">
+            <span style="
+              display:inline-flex; align-items:center; gap:8px;
+              background:var(--bg-primary); border:1px solid var(--border);
+              border-radius:8px; padding:8px 14px;
+              font-weight:600; font-size:0.9rem; color:var(--text-secondary);
+              width:100%;
+            ">
+              <span style="color:var(--accent);">▸</span>
+              {{ language.name }}
+            </span>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 
-    {% if contest_languages %}
-      <div class="supported-languages mt-4">
-        <h1 class="supported-languages-title">{% trans 'supported_languages' %}</h1>
+  {% if faq_items %}
+    <div class="faq mt-4">
+      <h1 class="faq-title">{% trans 'faq' %}</h1>
+      <hr class="my-3">
+      <ul style="list-style:none; padding:0;">
+        {% for faq_item in faq_items %}
+          <li style="margin-bottom:18px;">
+            <div style="
+              font-size:1rem; font-weight:700; color:var(--text-primary);
+              padding:14px 18px;
+              background:var(--bg-primary); border:1px solid var(--border);
+              border-radius:10px 10px 0 0;
+              border-bottom: 2px solid var(--accent);
+            ">
+              <i class="fa fa-question-circle" style="color:var(--accent); margin-right:8px;"></i>
+              {{ faq_item.question }}
+            </div>
+            <ul type="circle" style="margin:0; padding:0;">
+              <li type="circle" style="
+                padding:14px 18px;
+                background:var(--bg-secondary); border:1px solid var(--border);
+                border-top:none; border-radius:0 0 10px 10px;
+                color:var(--text-secondary); font-size:0.95rem; line-height:1.7;
+                list-style:none;
+              ">
+                {{ faq_item.answer|md|safe }}
+              </li>
+            </ul>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
 
-        <hr class="my-3">
-
-        <ul class="row row-wrap">
-          {% for language in contest_languages %}
-            <li class="col-6 col-lg-3">{{ language.name }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
-
-    {% if faq_items %}
-      <div class="faq mt-4">
-        <h1 class="faq-title">{% trans 'faq' %}</h1>
-
-        <hr class="my-3">
-
-        <ul>
-          {% for faq_item in faq_items %}
-            <li>{{ faq_item.content }}</li>
-            <li type="circle">{{ faq_item.answer|md|safe }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
-  </div>
+</div>
 {% endblock %}
