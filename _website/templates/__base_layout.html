@@ -8,7 +8,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ODTÜ Bilgisayar Topluluğu — Türkiye'nin en köklü bilgisayar kulübü.">
+  <meta name="description" content="ODTÜ Bilgisayar Topluluğu — 1989'dan bu yana teknoloji ve bilgisayar bilimleri alanında öğrencileri bir araya getiriyoruz.">
   <title>{{ site.display_name }}</title>
 
   <link rel="icon" href="{% static 'img/favicon.png' %}">
@@ -27,14 +27,12 @@
     {{ site.custom_css|safe }}
   {% endif %}
 
+  <!-- Tema flash'ını önle: CSS yüklenmeden önce tema ata -->
   <script>
-    /* Tema flash'ını önle — sayfa yüklenmeden önce çalışır */
-    (function() {
-      try {
-        var t = localStorage.getItem('cclub-theme') || 'light';
-        document.documentElement.setAttribute('data-theme', t);
-      } catch(e) {}
-    })();
+    try {
+      var t = localStorage.getItem('cclub-theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    } catch(e) {}
   </script>
 </head>
 
@@ -60,17 +58,18 @@
     <footer class="footer">
       <div class="container">
         <div class="footer-inner">
-          <svg width="14" height="14" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="32" height="32" rx="7" fill="var(--accent)"/>
-            <text x="3" y="23" font-family="Inter,sans-serif" font-weight="800" font-size="18" fill="#fff">CC</text>
-          </svg>
+          <img src="{% static 'img/logosmall.png' %}"
+               alt="CClub"
+               width="14" height="14"
+               style="opacity:0.45; transition: filter 0.3s ease;"
+               id="footer-logo">
           <span>{% trans 'metu_computer_club' %} &copy; {% now "Y" %}</span>
           <span class="footer-dot"></span>
-          <a href="https://www.instagram.com/metucclub/" target="_blank">
+          <a href="https://www.instagram.com/metucclub/" target="_blank" rel="noopener">
             <i class="fa fa-instagram"></i> Instagram
           </a>
           <span class="footer-dot"></span>
-          <a href="https://github.com/metucclub" target="_blank">
+          <a href="https://github.com/metucclub" target="_blank" rel="noopener">
             <i class="fa fa-github"></i> GitHub
           </a>
         </div>
@@ -88,10 +87,11 @@
         var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         html.setAttribute('data-theme', next);
         try { localStorage.setItem('cclub-theme', next); } catch(e) {}
-        updateToggleBtn(next);
+        _updateThemeBtn(next);
+        _updateFooterLogo(next);
       }
 
-      function updateToggleBtn(theme) {
+      function _updateThemeBtn(theme) {
         var btn = document.getElementById('theme-toggle');
         if (!btn) return;
         btn.innerHTML = theme === 'dark'
@@ -99,15 +99,21 @@
           : '<i class="fa fa-moon-o"></i> Karanlık';
       }
 
-      /* ── Navbar scroll ── */
+      function _updateFooterLogo(theme) {
+        var fl = document.getElementById('footer-logo');
+        if (!fl) return;
+        fl.style.filter = theme === 'dark' ? 'invert(1) brightness(2) opacity(0.45)' : 'opacity(0.45)';
+      }
+
+      /* ── Navbar scroll shadow ── */
       window.addEventListener('scroll', function() {
         var nav = document.querySelector('.navbar');
-        if (nav) nav.classList.toggle('scrolled', window.scrollY > 10);
+        if (nav) nav.classList.toggle('scrolled', window.scrollY > 8);
       }, { passive: true });
 
       /* ── Announcement Slider ── */
       function initSlider(sliderId) {
-        var wrap   = document.getElementById(sliderId);
+        var wrap = document.getElementById(sliderId);
         if (!wrap) return;
 
         var slides  = Array.from(wrap.querySelectorAll('.announcement-slide'));
@@ -137,12 +143,10 @@
           if (timer) { clearInterval(timer); timer = null; }
         }
 
-        var prevBtn = wrap.querySelector('.slider-prev');
-        var nextBtn = wrap.querySelector('.slider-next');
-
-        if (prevBtn) prevBtn.addEventListener('click', function() { stopAuto(); show(cur - 1); startAuto(); });
-        if (nextBtn) nextBtn.addEventListener('click', function() { stopAuto(); show(cur + 1); startAuto(); });
-
+        var prev = wrap.querySelector('.slider-prev');
+        var next = wrap.querySelector('.slider-next');
+        if (prev) prev.addEventListener('click', function() { stopAuto(); show(cur - 1); startAuto(); });
+        if (next) next.addEventListener('click', function() { stopAuto(); show(cur + 1); startAuto(); });
         dots.forEach(function(d, i) {
           d.addEventListener('click', function() { stopAuto(); show(i); startAuto(); });
         });
@@ -154,8 +158,8 @@
       /* ── Tabs ── */
       function initTabs() {
         document.querySelectorAll('.cclub-tabs-wrapper').forEach(function(wrapper) {
-          var btns     = Array.from(wrapper.querySelectorAll('.cclub-tab-btn'));
-          var contents = Array.from(wrapper.querySelectorAll('.cclub-tab-content'));
+          var btns     = Array.from(wrapper.querySelectorAll(':scope > .cclub-tabs > .cclub-tab-btn'));
+          var contents = Array.from(wrapper.querySelectorAll(':scope > .cclub-tab-content'));
 
           btns.forEach(function(btn, i) {
             btn.addEventListener('click', function() {
@@ -173,15 +177,15 @@
       /* ── CS Quiz ── */
       var csQ = [
         { q: "Big-O notasyonunda O(n log n) olan karşılaştırmalı sıralama algoritmaları hangileridir?", a: "Merge Sort ve Heap Sort O(n log n) karmaşıklığına sahiptir. Karşılaştırmaya dayalı sıralama için bu teorik alt sınırdır." },
-        { q: "TCP ile UDP arasındaki temel fark nedir?", a: "TCP bağlantı tabanlı, güvenilir ve sıralı veri iletimi sağlar. UDP bağlantısız ve hızlıdır; video akışı, oyun gibi gecikme hassas uygulamalarda tercih edilir." },
+        { q: "TCP ile UDP arasındaki temel fark nedir?", a: "TCP bağlantı tabanlı, güvenilir ve sıralı veri iletimi sağlar. UDP bağlantısız ve hızlıdır; gecikme hassas uygulamalarda tercih edilir." },
         { q: "Dengesiz bir Binary Search Tree'de arama karmaşıklığı nedir?", a: "En kötü durumda O(n)'dir. AVL veya Red-Black Tree gibi dengeli yapılarda O(log n) garantilenir." },
-        { q: "Deadlock oluşması için gereken dört koşul nelerdir?", a: "Coffman koşulları: (1) Mutual Exclusion, (2) Hold and Wait, (3) No Preemption, (4) Circular Wait. Tümü aynı anda sağlanırsa deadlock oluşur." },
-        { q: "Stack ve Heap bellek bölgeleri arasındaki fark nedir?", a: "Stack; fonksiyon çağrıları ve yerel değişkenler için LIFO yapısında otomatik yönetilir. Heap; dinamik bellek tahsisi için kullanılır ve manuel yönetim gerektirir." },
-        { q: "Turing-complete bir sistem ne anlama gelir?", a: "Yeterli bellek verildiğinde herhangi bir hesaplanabilir fonksiyonu simüle edebilen sistem veya dildir. Turing makinesiyle eşdeğer hesaplama gücüne sahiptir." },
-        { q: "Hash tablosunda collision nedir ve nasıl çözülür?", a: "İki farklı anahtar aynı hash değerine düştüğünde çakışma oluşur. Chaining (zincirleme) veya Open Addressing (açık adresleme) ile çözülür." },
-        { q: "Von Neumann darboğazı nedir?", a: "CPU ile bellek arasındaki veri yolunun bant genişliği sınırlı olduğundan işlemci çoğu zaman belleği bekler. Program ve veri aynı bellekte saklanır; bu temel kısıtlamadır." },
-        { q: "P ve NP problem sınıfları arasındaki fark nedir?", a: "P: polinomsal sürede çözülebilen problemler. NP: çözümü polinomsal sürede doğrulanabilen problemler. P=NP olursa kriptografi dahil pek çok alan kökten değişir." },
-        { q: "Recursion ve iteration ne zaman tercih edilmeli?", a: "Recursion; ağaç ve graf gibi doğası gereği özyinelemeli problemlerde okunabilirdir. Stack overflow riski varsa veya performans kritikse iteration tercih edilir." }
+        { q: "Deadlock oluşması için gereken dört koşul nelerdir?", a: "Coffman koşulları: (1) Mutual Exclusion, (2) Hold and Wait, (3) No Preemption, (4) Circular Wait." },
+        { q: "Stack ve Heap bellek bölgeleri arasındaki fark nedir?", a: "Stack; LIFO yapısında otomatik yönetilir. Heap; dinamik bellek tahsisi için kullanılır ve manuel yönetim gerektirir." },
+        { q: "Turing-complete bir sistem ne anlama gelir?", a: "Yeterli bellek verildiğinde herhangi bir hesaplanabilir fonksiyonu simüle edebilen sistem veya dildir." },
+        { q: "Hash tablosunda collision nedir ve nasıl çözülür?", a: "İki farklı anahtar aynı hash değerine düştüğünde çakışma oluşur. Chaining veya Open Addressing ile çözülür." },
+        { q: "Von Neumann darboğazı nedir?", a: "CPU ile bellek arasındaki veri yolunun bant genişliği sınırlı olduğundan işlemci çoğu zaman belleği bekler." },
+        { q: "P ve NP problem sınıfları arasındaki fark nedir?", a: "P: polinomsal sürede çözülebilen problemler. NP: çözümü polinomsal sürede doğrulanabilen problemler." },
+        { q: "Recursion ve iteration ne zaman tercih edilmeli?", a: "Recursion özyinelemeli yapılarda okunabilirdir. Stack overflow riski veya performans kritikse iteration tercih edilir." }
       ];
 
       var curQ = -1;
@@ -211,7 +215,8 @@
       /* ── Init ── */
       document.addEventListener('DOMContentLoaded', function() {
         var saved = localStorage.getItem('cclub-theme') || 'light';
-        updateToggleBtn(saved);
+        _updateThemeBtn(saved);
+        _updateFooterLogo(saved);
         initSlider('announcement-slider');
         initTabs();
         loadQuiz();

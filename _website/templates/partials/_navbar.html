@@ -6,80 +6,44 @@
 <nav class="navbar navbar-expand-lg">
   <div class="d-flex">
 
-    <!-- Gerçek SVG Logo — fill temaya göre CSS ile değişir -->
+    <!-- Logo: logosmall.png, dark modda CSS ile beyaza döner -->
     <a class="navbar-brand" href="{% url 'home' %}">
-      <svg class="cclub-logo-svg"
-           width="28" height="28"
-           viewBox="0 0 2700 2700"
-           xmlns="http://www.w3.org/2000/svg"
-           aria-label="CClub Logo">
-        <g class="cclub-logo-path"
-           stroke="none"
-           transform="translate(0,2700) scale(0.1,-0.1)">
-          <path d="M359 26782 c-51 -33 -130 -115 -153 -160 -15 -28 -16 -1118 -16
-          -13125 l0 -13093 28 -45 c33 -51 115 -130 160 -153 29 -15 986 -16 11624 -14
-          l11593 3 53 22 c147 60 117 32 1583 1501 861 863 1417 1427 1452 1474 67 90
-          103 162 117 238 7 35 10 3887 10 11607 0 10592 -1 11557 -16 11585 -23 45
-          -102 127 -153 160 l-45 28 -13096 0 -13096 0 -45 -28z m25472 -820 c56 -37 94
-          -75 131 -131 l28 -45 0 -3393 0 -3393 -4495 0 -4495 0 0 -6875 0 -6875 4495 0
-          4496 0 -3 -753 -3 -752 -22 -55 c-13 -31 -37 -79 -55 -107 -19 -29 -538 -558
-          -1223 -1246 -1230 -1236 -1240 -1245 -1374 -1299 l-56 -23 -11019 -3 -11019
-          -2 -41 24 c-53 31 -102 80 -138 135 l-28 45 0 12286 0 12286 28 45 c37 56 75
-          94 131 131 l45 28 12286 0 12286 0 45 -28z m159 -17212 l0 -1750 -3745 0
-          -3745 0 0 1750 0 1750 3745 0 3745 0 0 -1750z"/>
-          <path d="M2000 22500 l0 -2500 500 0 500 0 0 1500 0 1500 500 0 500 0 0 -500
-          0 -500 500 0 500 0 0 500 0 500 500 0 500 0 0 -1500 0 -1500 500 0 500 0 0
-          2500 0 2500 -500 0 -500 0 0 -500 0 -500 -500 0 -500 0 0 -500 0 -500 -500 0
-          -500 0 0 500 0 500 -500 0 -500 0 0 500 0 500 -500 0 -500 0 0 -2500z"/>
-          <path d="M8000 22500 l0 -2500 2500 0 2500 0 0 500 0 500 -2000 0 -2000 0 0
-          500 0 500 1500 0 1500 0 0 500 0 500 -1500 0 -1500 0 0 500 0 500 2000 0 2000
-          0 0 500 0 500 -2500 0 -2500 0 0 -2500z"/>
-          <path d="M14000 24500 l0 -500 1000 0 1000 0 0 -2000 0 -2000 500 0 500 0 0
-          2000 0 2000 1000 0 1000 0 0 500 0 500 -2500 0 -2500 0 0 -500z"/>
-          <path d="M20000 22500 l0 -2500 2500 0 2500 0 0 2500 0 2500 -500 0 -500 0 0
-          -2000 0 -2000 -1500 0 -1500 0 0 2000 0 2000 -500 0 -500 0 0 -2500z"/>
-          <path d="M2000 14000 l0 -5000 2500 0 2500 0 0 1000 0 1000 -1250 0 -1250 0 0
-          3000 0 3000 1250 0 1250 0 0 1000 0 1000 -2500 0 -2500 0 0 -5000z"/>
-          <path d="M8000 14000 l0 -5000 2500 0 2500 0 0 1000 0 1000 -1250 0 -1250 0 0
-          3000 0 3000 1250 0 1250 0 0 1000 0 1000 -2500 0 -2500 0 0 -5000z"/>
-        </g>
-      </svg>
+      <img src="{% static 'img/logosmall.png' %}" alt="CClub" width="28" height="28">
       <span>CClub</span>
     </a>
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse"
-      data-target="#navbarContent" aria-controls="navbarContent"
-      aria-expanded="false" aria-label="Menüyü aç">
+    <!-- Hamburger — her zaman görünür, collapse'ı tetikler -->
+    <button class="navbar-toggler" type="button"
+      data-toggle="collapse" data-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Menü">
       <span class="navbar-toggler-icon"></span>
     </button>
 
+    <!-- Collapse içeriği -->
     <div class="collapse navbar-collapse" id="navbarContent">
       <ul class="navbar-nav mx-auto">
+
         <li class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}">
-          <a class="nav-link" href="{% url 'home' %}">{% trans 'homepage' %}</a>
+          <a class="nav-link" href="{% url 'home' %}">Ana Sayfa</a>
         </li>
 
         {% for menu_item in menu_items %}
           <li class="nav-item {% if request.trimmed_path == menu_item.name|urlencode %}active{% endif %}">
             {% if menu_item.redirect_link %}
-              <a class="nav-link" href="{% if menu_item.redirect_link|slice:':1' == '/' %}{{ menu_item.redirect_link }}{% else %}{% url 'home' %}{% endif %}">{{ menu_item.title|escape }}</a>
+              <a class="nav-link" href="{% if menu_item.redirect_link|slice:':1' == '/' %}{{ menu_item.redirect_link }}{% else %}{% url 'home' %}{% endif %}">
+                {{ menu_item.title|escape }}
+              </a>
             {% else %}
-              <a class="nav-link" href="/{{ menu_item.name|urlencode }}">{{ menu_item.title|escape }}</a>
+              <a class="nav-link" href="/{{ menu_item.name|urlencode }}">
+                {{ menu_item.title|escape }}
+              </a>
             {% endif %}
           </li>
         {% endfor %}
 
-        <li class="nav-item">
-          <a class="nav-link" href="#etkinlikler">Etkinlikler</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#calisma-gruplari">Çalışma Grupları</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#yonetim">Yönetim</a>
-        </li>
       </ul>
 
+      <!-- Tema + Dil — collapse içinde, mobilde de görünür -->
       <div class="navbar-right">
         <button id="theme-toggle" onclick="toggleTheme()">
           <i class="fa fa-moon-o"></i> Karanlık
@@ -94,7 +58,7 @@
           </a>
         </li>
       </div>
-    </div>
 
+    </div>
   </div>
 </nav>
