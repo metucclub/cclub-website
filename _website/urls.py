@@ -7,6 +7,7 @@ def arsiv_redirect(request):
 
 urlpatterns = [
     path('', home_view, name='home'),
+    path('set-language/', set_language, name='set_language'),
     path('toggle-lang/', toggle_lang, name='toggle_lang'),
     path('announcements/', announcements_view, name='announcements'),
     path('announcements/<int:id>/', announcement_view, name='announcement'),
